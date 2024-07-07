@@ -15,13 +15,12 @@
  */
 class Solution {
     private TreeNode first;
-    private TreeNode firstNext;
+    private TreeNode middle;
     private TreeNode last;
-    private TreeNode previousNode;
-
+    private TreeNode prev;
     public void recoverTree(TreeNode root) {
-        first = firstNext = last = null;
-        previousNode = new TreeNode(Integer.MIN_VALUE);
+        first = middle = last = null;
+        prev = new TreeNode(Integer.MIN_VALUE);
         inorderTraversal(root);
 
         if (first != null && last != null) {
@@ -29,56 +28,31 @@ class Solution {
             int temp = first.val;
             first.val = last.val;
             last.val = temp;
-        } else if (first != null && firstNext != null) {
+        } else if (first != null && middle != null) {
             // If the last node is not found, swap the first node with its next node
             int temp = first.val;
-            first.val = firstNext.val;
-            firstNext.val = temp;
+            first.val = middle.val;
+            middle.val = temp;
         }
     }
 
     private void inorderTraversal(TreeNode root) {
-        TreeNode current = root;
-
-        while (current != null) {
-            if (current.left == null) {
-                // Process current node as there is no left subtree
-                if (previousNode != null && current.val < previousNode.val) {
-                    if (first == null) {
-                        first = previousNode;
-                        firstNext = current;
-                    } else {
-                        last = current;
-                    }
+        if(root==null){
+          return;
+        }
+        inorderTraversal(root.left);
+        if(prev!=null && root.val<prev.val){
+            if(first==null){
+            first=prev;
+            middle=root;
                 }
-                previousNode = current;
-                current = current.right;
-            } else {
-                // Find the predecessor of current
-                TreeNode predecessor = current.left;
-                while (predecessor.right != null && predecessor.right != current) {
-                    predecessor = predecessor.right;
-                }
-
-                if (predecessor.right == null) {
-                    // Create a temporary link to current
-                    predecessor.right = current;
-                    current = current.left;
-                } else {
-                    // Restore the tree and process current node
-                    predecessor.right = null;
-                    if (previousNode != null && current.val < previousNode.val) {
-                        if (first == null) {
-                            first = previousNode;
-                            firstNext = current;
-                        } else {
-                            last = current;
-                        }
-                    }
-                    previousNode = current;
-                    current = current.right;
-                }
+            else{
+               last=root;
             }
         }
+        prev=root;
+        inorderTraversal(root.right);
+        
+        
     }
 }
