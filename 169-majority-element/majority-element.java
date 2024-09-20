@@ -10,6 +10,7 @@ class Solution {
             if(nums[i+1]==nums[i]){
                    count++;
                    if(count>nums.length/2){
+                     
                       ans=nums[i];
                        count=0;
                    }
