@@ -1,25 +1,37 @@
 class Solution {
-   public int maximumProduct(int[] nums) {
-        int max1 = Integer.MIN_VALUE, max2 = Integer.MIN_VALUE, max3 = Integer.MIN_VALUE, min1 = Integer.MAX_VALUE, min2 = Integer.MAX_VALUE;
-        for (int n : nums) {
-            if (n > max1) {
-                max3 = max2;
-                max2 = max1;
-                max1 = n;
-            } else if (n > max2) {
-                max3 = max2;
-                max2 = n;
-            } else if (n > max3) {
-                max3 = n;
+    public int maximumProduct(int[] nums) {
+     
+        // the approach is to find the 3 largest numbers and two smatllest numbers ans then finad the max among these products
+        
+       int fMax=Integer.MIN_VALUE;
+       int sMax=Integer.MIN_VALUE;
+       int tMax=Integer.MIN_VALUE;
+       int fmin=Integer.MAX_VALUE;
+       int smin=Integer.MAX_VALUE;
+        
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>=fMax ){
+             tMax=sMax;
+             sMax=fMax;
+             fMax=nums[i];
             }
-
-            if (n < min1) {
-                min2 = min1;
-                min1 = n;
-            } else if (n < min2) {
-                min2 = n;
+            else if(nums[i]>sMax){
+                 tMax=sMax;
+                sMax=nums[i];
+            }
+            else if(nums[i]>tMax){
+              tMax=nums[i];
+            }
+            
+            if(nums[i]<fmin){
+                 smin=fmin;
+                fmin=nums[i];
+                
+            }
+            else if(nums[i]<smin){
+               smin=nums[i];
             }
         }
-        return Math.max(max1*max2*max3, max1*min1*min2);
+       return Math.max(fmin*smin*fMax,fMax*sMax*tMax);
     }
 }
