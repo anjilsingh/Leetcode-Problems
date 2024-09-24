@@ -8,10 +8,8 @@ class Solution {
         if (len == 1) {
             // If flowerbed has a flower (1) or if n > 1, we cannot plant the required flowers
             
-            if (flowerbed[0] == 1 && n==0) {
-                return true;
-            }
-            else if (flowerbed[0] == 1 || n > 1) {
+         
+         if (flowerbed[0] == 1 || n > 1) {
                 return false;
             }
             // Otherwise, if the plot is empty (0) and we need 1 flower, we can plant it
