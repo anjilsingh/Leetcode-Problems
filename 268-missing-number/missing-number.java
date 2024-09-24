@@ -1,10 +1,17 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        int sum=0;
+        int ans=-1;  
+        Map<Integer,Integer>mp=new HashMap<>();
         for(int i=0;i<nums.length;i++){
-              sum=sum+nums[i];
+            mp.put(nums[i],i);
         }
-        int orgSum=nums.length*(nums.length+1)/2;
-        return orgSum-sum;
+        //now iterate through the numberrs from 1 to n and if it is not present in hashmap retturn that number
+        for(int i=0;i<=nums.length;i++){
+            
+            if(!mp.containsKey(i)){
+                ans=i;
+            }
+        }
+        return ans;
     }
 }
