@@ -12,7 +12,7 @@ class Solution {
                 mp.put(nums[i],i);
              }
         }
-        Arrays.sort(ans);
+        // Arrays.sort(ans);
         return ans;
     }
 }
