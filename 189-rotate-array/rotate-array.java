@@ -1,22 +1,18 @@
 class Solution {
     public void rotate(int[] nums, int k) {
         int n=nums.length;
-         k=k%n;
-        
-        //storing the last k elements
-        int temp[]=new int[k];
+        k=k%n;
+        int[] temp=new int[n];
         int j=0;
         for(int i=n-k;i<n;i++){
-             temp[j++]=nums[i];
+           temp[j++]=nums[i];
         }
-        
-        //Now right rotate starting n-k elements
-        for(int i=n-1;i>=k;i--){
-              nums[i]=nums[i-k];    
-        }
-        //now put last 3 ele at starting 
-        for(int i=0;i<k;i++){
+        for(int i=0;i<n-k;i++){
+            temp[j++]=nums[i];
+        } 
+        for(int i=0;i<n;i++){
             nums[i]=temp[i];
         }
+        
     }
 }
