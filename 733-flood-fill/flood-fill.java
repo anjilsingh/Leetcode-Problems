@@ -1,35 +1,30 @@
 class Solution {
+    private int[][] dfs(int[][] image,int[][] ans,int sr,int sc,int[] dx, int[] dy,int color,int iniColor){
+         int n=image.length;
+         int m=image[0].length;
+        ans[sr][sc]=color;
+        for(int i=0;i<4;i++){
+           int  newSr=sr+dx[i];
+           int  newSc=sc+dy[i];
+            
+            
+            if(newSr>=0 && newSr<n && newSc>=0 && newSc<m && ans[newSr][newSc]!=color && image[newSr][newSc]==iniColor){
+                ans[newSr][newSc]=color;
+                dfs(image,ans,newSr,newSc,dx,dy,color,iniColor);
+
+            }
+        }
+        return ans;
+        
+   }
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int[][] ans=image;
+        //using recursion can be done using bfs or dfs
+        
         int iniColor=image[sr][sc];
-        int[] delRow={0,0,1,-1};
-        int[] delCol={1,-1,0,0};
-        dfs(image,sr,sc,color,ans,iniColor,delRow,delCol);
+        int[][] ans=image;
+        int[] dx={-1,1,0,0};
+        int[] dy={0,0,-1,1};
+        ans=dfs(image,ans,sr,sc,dx,dy,color,iniColor);
         return ans;
     }
-    
-   private void dfs(int[][]image,int sr,int sc,int color,int[][]ans,int iniColor,int[]delRow,int[]delCol)
-    {    ans[sr][sc]=color;
-        int n=image.length;
-        int m=image[0].length;
-        for(int i=0;i<4;i++){
-
-             int r=sr+delRow[i];
-             int c=sc+delCol[i];
-            //check for valid condition
-            
-            if(r>=0 && r<n && c>=0 && c<m && image[r][c]==iniColor && ans[r][c]!=color){
-
-             dfs(image,r,c,color,ans,iniColor,delRow,delCol);
-            
-            
-            }
-        
-        
-        }
-
-    
-    }
-    
-    
-    }
+}
