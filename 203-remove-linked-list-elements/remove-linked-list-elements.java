@@ -10,22 +10,19 @@
  */
 class Solution {
     public ListNode removeElements(ListNode head, int val) {
-    if(head==null){
-         return head;
-    }
-     while( head!=null && head.val==val){
-         head=head.next;
-     }
-    ListNode temp=head;
-    while(temp!=null && temp.next!=null){
-       if(temp.next.val==val){
-              temp.next=temp.next.next;
-       }
-        else{
-            temp=temp.next;
-
+        // Base case: if the list is empty, return null
+        if (head == null) {
+            return null;
         }
-    }
-        return head;
+
+        // Recursively call the function on the next node
+        head.next = removeElements(head.next, val);
+
+        // If current node's value equals `val`, skip this node
+        if (head.val == val) {
+            return head.next;  // Skip the current node
+        } else {
+            return head;  // Keep the current node
+        }
     }
 }
