@@ -15,20 +15,16 @@ public class Solution {
       if(head==null ||head.next==null){
           return false;
         }
-        ListNode temp=head;
-        HashMap<ListNode,Integer>mp=new HashMap<>();
-        
-      while(temp.next!=null){
-         if(!mp.containsKey(temp)){
-            mp.put(temp,1);
-         }
-        else{
-            return true;
-        
+       ListNode slow=head;
+       ListNode fast=head;
+        while(fast!=null && fast.next!=null){
+          fast=fast.next.next;
+          slow=slow.next;
+            if(slow==fast){
+               return true;
+            }
         }
-          temp=temp.next;
         
-        }
         return false;
     }
 }
