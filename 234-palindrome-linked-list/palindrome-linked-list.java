@@ -10,58 +10,56 @@
  */
 class Solution {
     
-    // Reverse a linked list
-    public ListNode reverse(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-
-        ListNode recNode = reverse(head.next);  // Reverse the rest of the list
-        head.next.next = head;  // Make the next node point to the current node
-        head.next = null;  // Set the current node's next to null (tail)
-        return recNode;  // Return new head of the reversed list
+    public ListNode findMiddle(ListNode head){
+      ListNode slow=head;
+      ListNode fast=head.next.next;
+     while(fast!=null && fast.next!=null){
+           fast=fast.next.next;
+           slow=slow.next;
+     }
+        return slow;
     }
-
-    // Check if the list is a palindrome
+    
+    public ListNode findReverse(ListNode head){
+        //by using recursion
+        if(head==null ||head.next==null){
+           return head;
+        }
+        ListNode rec=findReverse(head.next);
+        head.next.next=head;
+        head.next=null;
+        return rec;
+        
+    
+    
+    }
+    
+    
     public boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) {
             return true;
         }
-
-        // Step 1: Reverse a copy of the list
-        ListNode reversedHead = reverse(cloneList(head));
-
-        // Step 2: Compare original and reversed lists
-        ListNode original = head;
-        ListNode reversed = reversedHead;
-
-        while (original != null && reversed != null) {
-            if (original.val != reversed.val) {  // Compare node values
-                return false;  // If values are different, it's not a palindrome
+        ListNode middle=findMiddle(head);
+        ListNode revHead=findReverse(middle.next);
+        
+        //Now check in both 
+        ListNode fstart=head;
+        ListNode sstart=revHead;
+        
+        while(sstart!=null){
+            if(fstart.val!=sstart.val){
+              findReverse(revHead);
+               return false;
+              
             }
-            original = original.next;
-            reversed = reversed.next;
+            fstart=fstart.next;
+            sstart=sstart.next;
+            
         }
         
-        return true;  // If all values matched, it's a palindrome
-    }
+        findReverse(revHead);
+        return true;
 
-    // Helper method to clone a list (to avoid modifying the original list)
-    public ListNode cloneList(ListNode head) {
-        if (head == null) {
-            return null;
-        }
-
-        ListNode newHead = new ListNode(head.val);  // Create a new node with the same value
-        ListNode current = newHead;
-        ListNode original = head.next;
-
-        while (original != null) {
-            current.next = new ListNode(original.val);  // Copy the value of each node
-            current = current.next;
-            original = original.next;
-        }
-
-        return newHead;  // Return the head of the cloned list
+        
     }
 }
