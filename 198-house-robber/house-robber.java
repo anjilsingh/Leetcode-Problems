@@ -1,19 +1,14 @@
 class Solution {
-    public int solve(int n,int i,int[] nums,int[]dp){
-      if(i>=n){
-          return 0;
-      }
-     if(dp[i]!=-1){
-        return dp[i];
-     }
-     int ans=Math.max(nums[i]+solve(n,i+2,nums,dp),solve(n,i+1,nums,dp));
-     return dp[i]=ans;
+   
+ public int rob(int[] nums) {
+    if (nums.length == 0) return 0;
+    int[] memo = new int[nums.length + 1];
+    memo[0] = 0;
+    memo[1] = nums[0];
+    for (int i = 1; i < nums.length; i++) {
+        int val = nums[i];
+        memo[i+1] = Math.max(memo[i], memo[i-1] + val);
     }
-    public int rob(int[] nums) {
-        int n=nums.length;
-        int[] dp=new int[n];
-        Arrays.fill(dp,-1);
-        int ans=solve(n,0,nums,dp);
-        return ans;
-    }
+    return memo[nums.length];
+}
 }
