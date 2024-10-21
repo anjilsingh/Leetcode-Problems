@@ -1,57 +1,53 @@
-import java.util.LinkedList;
-import java.util.Queue;
-
 class Solution {
     public int orangesRotting(int[][] grid) {
-        if(grid == null || grid.length == 0) return 0;
-        
-        int rows = grid.length;
-        int cols = grid[0].length;
-        Queue<int[]> q = new LinkedList<>();
-        int count_fresh = 0;
-        
-        for(int i = 0; i < rows; i++) {
-            for(int j = 0; j < cols; j++) {
-                if(grid[i][j] == 2) {
-                    q.offer(new int[]{i, j});
-                }
-                if(grid[i][j] != 0) {
-                    count_fresh++;
-                }
-            }
+        //first check if grid is null or empty
+        if(grid==null || grid.length==0){
+           return 0;
+        }
+        Queue<int[]>q=new LinkedList<>();
+        int r=grid.length;
+        int c=grid[0].length;
+        int checkCount=0;
+        for(int i=0;i<r;i++){
+         for(int j=0;j<c;j++){
+             if(grid[i][j]==2){
+               q.add(new int[]{i,j});
+             }
+             if(grid[i][j]!=0){
+                 checkCount++;
+             }
+         }
         }
         
-        if(count_fresh == 0) return 0;
-        
-        int count_min = 0;
-        int cnt = 0;
-        int[] dx = {0, 0, 1, -1};
-        int[] dy = {1, -1, 0, 0};
-        
-        while(!q.isEmpty()) {
-            int size = q.size();
-            cnt += size;
-            
-            for(int i = 0; i < size; i++) {
-                int[] point = q.poll();
-                for(int j = 0; j < 4; j++) {
-                    int x = point[0] + dx[j];
-                    int y = point[1] + dy[j];
+        if(checkCount==0) return 0;
+        int count=0;
+        int minCount=0;
+        int[] dx={-1,1,0,0};
+        int[] dy={0,0,-1,1};
+        while(!q.isEmpty()){
+            int size=q.size();
+            count+=size;
+            for(int i=0;i<size;i++){
+               int[] node=q.poll();
+               int row=node[0];
+               int col=node[1];
+                for(int j=0;j<4;j++){
+                   int newRow=row+dx[j];
+                   int newCol=col+dy[j];
+                   if(newRow<0 ||newRow>=r ||newCol<0||newCol>=c||grid[newRow][newCol]==2||grid[newRow][newCol]==0) continue;
                     
-                    if(x < 0 || y < 0 || x >= rows || y >= cols || grid[x][y] == 0 || grid[x][y] == 2) {
-                        continue;
-                    }
-                    
-                    grid[x][y] = 2;
-                    q.offer(new int[]{x, y});
+                    grid[newRow][newCol]=2;
+                    q.add(new int[]{newRow,newCol});
                 }
-            }
             
-            if(!q.isEmpty()) {
-                count_min++;
+            
             }
-        }
+            if(q.size()!=0){
+              minCount++;
+            }
         
-        return count_fresh == cnt ? count_min : -1;
+        }
+        return count==checkCount?minCount:-1;
+        
     }
 }
