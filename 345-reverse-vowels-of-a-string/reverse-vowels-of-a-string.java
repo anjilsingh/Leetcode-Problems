@@ -1,25 +1,33 @@
 class Solution {
-    public String reverseVowels(String s) {
-        int l=0;
-        int r = s.length()-1;
-        char arr[]=s.toCharArray();
-        while(l<r){
-            if((arr[l]== 'a'||arr[l]== 'e'|| arr[l]=='i'||arr[l]== 'o' ||arr[l]=='u' ||arr[l]=='A' ||arr[l]=='E'||arr[l]=='I'||arr[l]=='O'||arr[l]=='U') && (arr[r]== 'a'||arr[r]== 'e'|| arr[r]=='i'||arr[r]== 'o' ||arr[r]=='u' ||arr[r]=='A' ||arr[r]=='E'||arr[r]=='I'||arr[r]=='O'||arr[r]=='U')){
-                char temp = arr[l];
-                arr[l]= arr[r] ;
-                arr[r]=temp;
-                l++;
-                r--;
-            }
-            else if((arr[l]== 'a'||arr[l]== 'e'|| arr[l]=='i'||arr[l]== 'o' ||arr[l]=='u' ||arr[l]=='A' ||arr[l]=='E'||arr[l]=='I'||arr[l]=='O'||arr[l]=='U') && (arr[r]!= 'a'||arr[r]!= 'e'|| arr[r]!='i'||arr[r]!= 'o' ||arr[r]!='u' ||arr[r]!='A' ||arr[r]!='E'||arr[r]!='I'||arr[r]!='O'||arr[r]!='U')){
-                r--;
-            }
-            else{
-                l++;
-            }
-            
-        }
-        return new String(arr);
-        
+    public void swap(char[] arr, int left, int right){
+             char temp=arr[left];
+             arr[left]=arr[right];
+        arr[right]=temp;
+             
     }
+    public String reverseVowels(String s) {
+        char[] charArr=s.toCharArray();
+        int left=0;
+        int right=charArr.length-1;
+        
+       Set<Character> vowel = Set.of('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
+        
+        while(left<right){
+            if(vowel.contains(charArr[left]) && vowel.contains(charArr[right])){
+               swap(charArr,left,right);
+                left++;
+                right--;
+            }
+               
+             else if(!vowel.contains(charArr[left])){
+                  left++;
+             }
+              
+               else{
+                    right--;
+               }
+        
+        }
+               return new String(charArr);
+}
 }
