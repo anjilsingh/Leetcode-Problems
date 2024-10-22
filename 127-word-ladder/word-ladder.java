@@ -1,44 +1,42 @@
 class Solution {
+    class Pair{
+         String first;
+         int sec;
+        Pair(String first,int sec){
+           this.first=first;
+            this.sec=sec;
+        }
+    }
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(beginWord, 1)); 
+        Set<String>set=new HashSet<>();
+        for(String word:wordList){
+           set.add(word);
+        }
         
-        Set<String> st = new HashSet<>(wordList); // Directly add wordList into set
-        
-        st.remove(beginWord);
-        
-        while (!q.isEmpty()) {
-            String word = q.peek().first;
-            int steps = q.peek().second;
-            q.poll();
+        Queue<Pair>q=new LinkedList<>();
+        q.add(new Pair(beginWord,1));
+        set.remove(beginWord);
+        while(!q.isEmpty()){
+            String word=q.peek().first;
+            int steps=q.peek().sec;
+            q.remove();
+            if(word.equals(endWord)) return steps;
             
-            if (word.equals(endWord)) {
-                return steps;
+            for(int i=0;i<word.length();i++){
+             for(char ch='a';ch<='z';ch++){
+                 char[] charArr=word.toCharArray();
+                 charArr[i]=ch;
+                 String modString=new String(charArr);
+                 
+                 if(set.contains(modString)){
+                    q.add(new Pair(modString,steps+1));
+                     set.remove(modString);
+                 }
+             }
+            
             }
             
-            for (int i = 0; i < word.length(); i++) {
-                for (char ch = 'a'; ch <= 'z'; ch++) {
-                    char[] wordChar = word.toCharArray();
-                    wordChar[i] = ch;
-                    String replaced = new String(wordChar);
-                    
-                    if (st.contains(replaced)) {
-                        st.remove(replaced);
-                        q.add(new Pair(replaced, steps + 1));
-                    }
-                }
-            }
         }
         return 0;
-    }
-}
-
-class Pair {
-    String first;
-    int second;
-    
-    public Pair(String first, int second) {
-        this.first = first;
-        this.second = second;
     }
 }
