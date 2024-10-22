@@ -1,23 +1,19 @@
 class Solution {
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
-        List<Boolean>ans=new ArrayList<>();
-        boolean[] arr=new boolean[candies.length];
-        int[] cpyArr=new int[candies.length];
-        for(int i=0;i<cpyArr.length;i++){
-           cpyArr[i]=candies[i];
-        }
-        Arrays.sort(cpyArr);
-        int largest=cpyArr[cpyArr.length-1];
+   
+         //first find the maximum candy value in the array
         
-        for(int i=0;i<candies.length;i++){
-           if(candies[i]+extraCandies>=largest){
-                arr[i]=true;
+        int max=candies[0];
+        for(int cany:candies){
+           if(cany>=max){
+              max=cany;
            }
         }
-     for(int i = 0; i < arr.length; i++) {
-    ans.add(arr[i]);  // Adds the element arr[i] to the list 'ans'
-}
+        ArrayList<Boolean>ans=new ArrayList<>();
         
+        for(int candy:candies){
+          ans.add(candy+extraCandies>=max);
+        }
         return ans;
     }
 }
