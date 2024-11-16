@@ -24,11 +24,12 @@ class Solution {
             TreeNode temp=node.left;
             node.left=node.right;
             node.right=temp;
-            if(node.right!=null)
-            st.push(node.right);
-            if(node.left!=null)
+             if(node.left!=null)
                 st.push(node.left);
             
+            if(node.right!=null)
+            st.push(node.right);
+           
 
         }
         return root;
