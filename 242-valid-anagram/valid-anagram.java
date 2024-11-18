@@ -1,18 +1,29 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
-        //second method can use an int array 
-        //increase value for char in s and decrease for t if all are 0 then okay else return false
-        //since only lower case letter so use 26 length array
+        //third method --its my try 
+        if(s.length()!=t.length()) return false;
+        HashMap<Character,Integer>mS=new HashMap<>();
+        HashMap<Character,Integer>mT=new HashMap<>();
+         
+        for(char ch:s.toCharArray()){
+         mS.put(ch,mS.getOrDefault(ch,0)+1);
+        }
         
-        int[] arr=new int[26];
-        for(int i=0;i<s.length();i++){
-           arr[s.charAt(i)-'a']++;
+        for(char ch:t.toCharArray()){
+             mT.put(ch,mT.getOrDefault(ch,0)+1);
         }
-        for(int i=0;i<t.length();i++){
-             arr[t.charAt(i)-'a']--;
-        }
-        for(int i=0;i<26;i++){
-           if(arr[i]!=0) return false;
+        
+        for(char ch:s.toCharArray()){
+            int valS=mS.get(ch);
+            if(mT.containsKey(ch)){
+               int valT=mT.get(ch);
+              if(valS!=valT) return false;
+            }
+            else{
+               return false;
+            }
+           
+
         }
         return true;
     }
