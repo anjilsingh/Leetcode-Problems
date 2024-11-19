@@ -33,15 +33,21 @@ class Solution {
         }
 
         // Check specific 3x3 subgrids (hardcoded)
-        if (!isValid(board, 0, 0)) return false;
-        if (!isValid(board, 0, 3)) return false;
-        if (!isValid(board, 0, 6)) return false;
-        if (!isValid(board, 3, 0)) return false;
-        if (!isValid(board, 3, 3)) return false;
-        if (!isValid(board, 3, 6)) return false;
-        if (!isValid(board, 6, 0)) return false;
-        if (!isValid(board, 6, 3)) return false;
-        if (!isValid(board, 6, 6)) return false;
+        // if (!isValid(board, 0, 0)) return false;
+        // if (!isValid(board, 0, 3)) return false;
+        // if (!isValid(board, 0, 6)) return false;
+        // if (!isValid(board, 3, 0)) return false;
+        // if (!isValid(board, 3, 3)) return false;
+        // if (!isValid(board, 3, 6)) return false;
+        // if (!isValid(board, 6, 0)) return false;
+        // if (!isValid(board, 6, 3)) return false;
+        // if (!isValid(board, 6, 6)) return false;
+        
+        for(int i=0;i<9;i=i+3){
+            for(int j=0;j<9;j=j+3){
+                 if(!isValid(board,i,j)) return false;
+            }
+        }
 
         return true; // If all checks pass
     }
