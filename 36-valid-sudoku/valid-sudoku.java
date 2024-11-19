@@ -23,10 +23,10 @@ class Solution {
         }
 
         // Check all columns
-        for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 9; i++) {
             HashSet<Character> seen = new HashSet<>();
-            for (int i = 0; i < 9; i++) {
-                char ch = board[i][j];
+            for (int j= 0; j < 9; j++) {
+                char ch = board[j][i];
                 if (ch != '.' && seen.contains(ch)) return false;
                 if (ch != '.') seen.add(ch);
             }
