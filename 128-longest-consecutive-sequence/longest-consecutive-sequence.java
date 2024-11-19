@@ -1,21 +1,21 @@
 class Solution {
     public int longestConsecutive(int[] nums) {
-        //briteforce approach be like sort the array and count
-        if(nums.length==0||nums.length==1) return nums.length;
-        int len=1;
+        if(nums.length==0 ||nums.length==1) return nums.length;
+        HashSet<Integer>set=new HashSet<>();
+        
+        for(int num:nums) set.add(num);
         int maxLen=1;
-        Arrays.sort(nums);
-        for(int i=1;i<nums.length;i++){
-            if(nums[i]==nums[i-1] ) continue;
-            else if(nums[i]==nums[i-1]+1){
-                len++;
+        for(int num:nums){
+            //if left point is present then skip as this can tbe starting pont
+            if(set.contains(num-1)) continue;
+            //else this will be a starting point
+            int len=1;
+            while(set.contains(num+len)){
+               len++;
             }
-            else{
-
             maxLen=Math.max(len,maxLen);
-            len=1;
-            }
+            
         }
-        return Math.max(maxLen,len);
+        return maxLen;
     }
 }
