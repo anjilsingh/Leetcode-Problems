@@ -1,28 +1,36 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-      List<List<Integer>>ans=new ArrayList<>();
-        int n=nums.length;
+        //if a+b+c=0 then c=-a-b
+        //so wee can take one element and the apply a for loop from its further and 
+        //check if -nums[i]-nums[j] is present or not 
+        //like we have done in 2 sum...whether target-nums[i]
+        //present or not
+        
+        //lets do it now 
+        
+        //this will help in removing duplicates
+        List<List<Integer>>ans=new ArrayList<>();
         Arrays.sort(nums);
-        for(int i=0;i<n-2;i++){
-            if(i>0 && nums[i-1]==nums[i]) continue;
-            int l=i+1;
-            int r=n-1;
-            int target=-nums[i];
-            while(l<r){
-             if(nums[l]+nums[r]==target){
-                 ans.add(Arrays.asList(nums[i],nums[l] , nums[r]));
-                 while(l<r && nums[l]==nums[l+1])l++;
-                 while(r>l && nums[r]==nums[r-1])r--;
-                 l++;
-                 r--;
-             }
-             else if(nums[l]+nums[r]<target){
-                 l++;
-             }
-             else{
-                 r--;
-             }
-            }
+        for(int i=0;i<nums.length-2;i++){
+            
+            //remove duplicate for further
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            
+            HashMap<Integer,Integer>mp=new HashMap<>();
+            
+    for(int j=i+1;j<nums.length;j++){
+              int target=-nums[i]-nums[j];
+              if(mp.containsKey(target)){
+               ans.add(Arrays.asList(nums[i],target,nums[j]));
+               while(j+1<nums.length && nums[j+1]==nums[j]){
+                 j++;
+               }
+              }
+           else{
+                mp.put(nums[j],j);
+           }
+    }
+
         }
         return ans;
     }
