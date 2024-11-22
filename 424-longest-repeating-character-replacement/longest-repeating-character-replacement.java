@@ -1,19 +1,19 @@
 class Solution {
     public int characterReplacement(String s, int k) {
-        int res=0;
-        int l=0;
-        int maxF=0;
         HashMap<Character,Integer>mp=new HashMap<>();
+        int l=0;
+        int freq=0;
+        int len=0;
         for(int r=0;r<s.length();r++){
            mp.put(s.charAt(r),mp.getOrDefault(s.charAt(r),0)+1);
-           maxF=Math.max(maxF,mp.get(s.charAt(r)));
+           freq=Math.max(freq,mp.get(s.charAt(r)));
             
-        while((r-l+1-maxF)>k){
-              mp.put(s.charAt(l),mp.get(s.charAt(l))-1);
+          while((r-l+1-freq)>k){
+             mp.put(s.charAt(l),mp.get(s.charAt(l))-1);
              l++;
+          }
+            len=Math.max(len,r-l+1);
         }
-            res=Math.max(res,r-l+1);
-        }
-        return res;
+        return len;
     }
 }
