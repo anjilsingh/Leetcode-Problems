@@ -1,32 +1,43 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
         
-        //bruteforce can be generrate all substrings of s2,sort this and also sort s1 and then just compare :)
+        //optimal approach is to use sliding window protocol
+        if(s1.length()>s2.length()) return  false;
         
-        //if s1 length is greater then s2 directly return false 
+        int[] s1arr=new int[26];
+        int[] s2arr=new int[26];
         
-        if(s1.length()>s2.length()) return false;
-        if(s1.equals(s2)) return true;
+        //this question is like similar to constant window problem
         
-        char[] s1char=s1.toCharArray();
-        Arrays.sort(s1char);
-        String sorteds1=new String(s1char);
-
-           
-        //generate all substrings and compare 
-                                   
-        for(int i=0;i<s2.length();i++){
-            for(int j=i;j<s2.length();j++){
-                
-                if((j-i+1)==s1.length()){
-                    char[] s2subchar=s2.substring(i,j+1).toCharArray();
-                    Arrays.sort(s2subchar);
-                    String sorted=new String(s2subchar);
-                    if(sorted.equals(sorteds1)) return true;
-                }
-            }
-
+        for(int i=0;i<s1.length();i++){
+          s1arr[s1.charAt(i)-'a']++;
+          s2arr[s2.charAt(i)-'a']++;
         }
-                                   return false;
+        
+        //now calculate the matches
+        int matches=0;
+        for(int i=0;i<26;i++){
+            if(s1arr[i]==s2arr[i]) matches++;
+        }
+        
+        int l=0;
+        for(int r=s1.length();r<s2.length();r++){
+           if(matches==26) return true;
+            
+            int index=s2.charAt(r)-'a';
+            s2arr[index]++;
+            if(s1arr[index]==s2arr[index]) matches++;
+            else if(s1arr[index]+1==s2arr[index]) matches--;
+            
+            
+             index=s2.charAt(l)-'a';
+            s2arr[index]--;
+            if(s1arr[index]==s2arr[index]) matches++;
+            else if(s1arr[index]==s2arr[index]+1) matches--;
+            
+            l++;
+        }
+        return matches==26;
+        
     }
 }
