@@ -1,24 +1,40 @@
 class Solution {
     public int trap(int[] height) {
+        //using two pointer 
+        //the idea is to keep two pointer left right and instead of creating the leftmax and rightmax value 
+        //while side left or right will be less we will know that it is the 
+        //deciding factor and calculate for that side
+        int n=height.length;
+        int l=0;
+        int r=n-1;
+        int lMax=0;
+        int rMax=0;
+        int ans=0;
+        while(l<=r){
+          if(lMax<=rMax){
+             
+            if(height[l]>lMax){
+              lMax=height[l];
+            }
+            else{
+              ans=ans+lMax-height[l];
+            }
+             l++;
+          }
+            
+          else{
+             if(height[r]>rMax){
+                rMax=height[r];
+             }
+              else{
+          ans=ans+rMax-height[r];
+              }
+          
+          r--;
+          }
         
-        int leftMax[]=new int[height.length];
-        int rightMax[]=new int[height.length];
+        }
+        return ans;
         
-        leftMax[0]=0;
-        for(int i=1;i<height.length;i++){
-             leftMax[i]=Math.max(leftMax[i-1],height[i-1]);
-        }
-        rightMax[height.length-1]=0;
-        for(int i=height.length-2;i>=0;i--){
-           rightMax[i]=Math.max(rightMax[i+1],height[i+1]);
-        }
-        
-        int amount=0;
-        for(int i=0;i<height.length;i++){
-           if(Math.min(leftMax[i],rightMax[i])-height[i]>0){
-             amount+=Math.min(leftMax[i],rightMax[i])-height[i];
-           }
-        }
-        return amount;
     }
 }
