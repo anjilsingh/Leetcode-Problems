@@ -1,35 +1,32 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        if(s1.length()>s2.length()) return false;
-        int s1count[]=new int[26];
-        int s2count[]=new int[26];
-        for(int i=0;i<s1.length();i++){
-            s1count[s1.charAt(i)-'a']++;
-            s2count[s2.charAt(i)-'a']++;
-            
-        }
-        int matches=0;
-        for(int i=0;i<26;i++){
-           if(s1count[i]==s2count[i]) matches++;
-        }
-        int l=0;
-        for(int r=s1.length();r<s2.length();r++){
-            if(matches==26) return true;
-            //since we have added r
-            int index=s2.charAt(r)-'a';
-            s2count[index]++;
-            if(s1count[index]==s2count[index]) matches++;
-            else if(s1count[index]+1==s2count[index]) matches--;
-            
-            //now we need to remove from l side
-            index=s2.charAt(l)-'a';
-            s2count[index]--;
-            if(s1count[index]==s2count[index]) matches++;
-            else if(s1count[index]==s2count[index]+1)matches--;
-            
-            l++;
-        }
-        return matches==26;
         
+        //bruteforce can be generrate all substrings of s2,sort this and also sort s1 and then just compare :)
+        
+        //if s1 length is greater then s2 directly return false 
+        
+        if(s1.length()>s2.length()) return false;
+        if(s1.equals(s2)) return true;
+        
+        char[] s1char=s1.toCharArray();
+        Arrays.sort(s1char);
+        String sorteds1=new String(s1char);
+
+           
+        //generate all substrings and compare 
+                                   
+        for(int i=0;i<s2.length();i++){
+            for(int j=i;j<s2.length();j++){
+                
+                if((j-i+1)==s1.length()){
+                    char[] s2subchar=s2.substring(i,j+1).toCharArray();
+                    Arrays.sort(s2subchar);
+                    String sorted=new String(s2subchar);
+                    if(sorted.equals(sorteds1)) return true;
+                }
+            }
+
+        }
+                                   return false;
     }
 }
