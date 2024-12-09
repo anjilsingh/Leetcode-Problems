@@ -11,15 +11,16 @@ class Solution {
          mp.put(num,mp.getOrDefault(num,0)+1);
          
         }
-        List<int[]>arr=new ArrayList<>();
+        PriorityQueue<int[]>pq=new PriorityQueue<>((a,b)->a[0]-b[0]);
         for(Map.Entry<Integer,Integer>entry:mp.entrySet()){
-              arr.add(new int[]{entry.getValue(),entry.getKey()});
+          pq.add(new int[]{entry.getValue(),entry.getKey()});
+          if(pq.size()>k){
+                pq.poll();
+          }
         }
-        arr.sort((a,b)->b[0]-a[0]);
         int[] res=new int[k];
         for(int i=0;i<k;i++){
-            res[i]=arr.get(i)[1];
-
+              res[i]=pq.poll()[1];
         }
         return res;
     }
