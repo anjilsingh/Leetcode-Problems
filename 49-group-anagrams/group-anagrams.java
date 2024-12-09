@@ -8,9 +8,12 @@ class Solution {
         
         HashMap<String,List<String>>mp=new HashMap<>();
         for(String str:strs){
-            char[] strchar=str.toCharArray();
-            Arrays.sort(strchar);
-            String key=new String(strchar);
+            //or instead of sorting can use a hashtable 
+            int count[]=new int[26];
+             for(char c:str.toCharArray()){
+                count[c-'a']++;
+             }
+            String key=Arrays.toString(count);
             mp.putIfAbsent(key,new ArrayList<>());
             mp.get(key).add(str);
         
