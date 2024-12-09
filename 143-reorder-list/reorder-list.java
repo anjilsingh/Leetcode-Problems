@@ -10,27 +10,49 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        if(head==null) return;
-        List<ListNode>list=new ArrayList<>();
-        ListNode temp=head;
-        while(temp!=null)
-        {
-            list.add(temp);
-            temp=temp.next;
+        //very easy guys 
+        //first just find the middle value 
+        //uhmmm simple fast and slow pointer appraoch
+        ListNode fast=head;
+        ListNode slow=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        
+        //now slow is our middle value so we will divide our ll in two parts 
+        //one till slow
+        //and other from slow to end
+        
+        
+        ListNode sec=slow.next;
+        slow.next=null;
+        ListNode prev=null;
+        //no i need to reverse the linkedlist starting from sec
+        
+        while(sec!=null){
+            ListNode secnext=sec.next;
+            sec.next=prev;
+            prev=sec;
+            sec=secnext;
 
         }
-        int i=0;
-        int j=list.size()-1;
         
-        while(i<j){
-          list.get(i).next=list.get(j);
-            i++;
-            if(i>=j) break;
-         list.get(j).next=list.get(i);
-         j--;
+        //now prev is my second list head
+        
+        sec=prev;
+        //no merge the list 
+        ListNode first=head;
+        while(sec!=null){
+          ListNode temp1=first.next;
+          ListNode temp2=sec.next;
+          first.next=sec;
+          sec.next=temp1;
+          first=temp1;
+          sec=temp2;
+
         }
         
-        list.get(i).next=null;
         
     }
 }
