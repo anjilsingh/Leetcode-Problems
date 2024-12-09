@@ -1,23 +1,34 @@
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int n=nums.length;
-        int[] ans=new int[n];
-        //first we keep multiply our answer from front side
-        ans[0]=1;
-        for(int i=1;i<n;i++){
-             ans[i]=ans[i-1]*nums[i-1];
+        //secon method count the number of zeroes 
+        
+        int count=0;
+        int prod=1;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0) count++;
+            else  prod=prod*nums[i];
         }
-        int post=1;
-        for(int i=n-1;i>=0;i--){
-            if(i==n-1){
-               ans[i]=ans[i]*post;
-               post=nums[i]*post;
-            }
-            else{
-              ans[i]=ans[i]*post;
-              post=post*nums[i];
-            }
+        
+        int res[] =new int[nums.length];
+        
+        // if(count>=2) return res;
+         if(count==1){
+             for(int i=0;i<nums.length;i++){
+                if(nums[i]==0){
+                   res[i]=prod;
+                    return res;
+                
+                }
+             }
+        
         }
-        return ans;
+        else if(count==0){
+              for(int i=0;i<nums.length;i++){
+                  res[i]=prod/nums[i];
+              }
+        }
+        
+        return res;
+        
     }
 }
