@@ -1,34 +1,22 @@
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        //secon method count the number of zeroes 
+        //use prefix and suffix approach 
         
-        int count=0;
-        int prod=1;
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]==0) count++;
-            else  prod=prod*nums[i];
+        int[] prefix=new int[nums.length];
+        int[] suffix=new int[nums.length];
+        prefix[0]=1;
+        suffix[nums.length-1]=1;
+        for(int i=1;i<nums.length;i++){
+           prefix[i]=prefix[i-1]*nums[i-1];
+        }
+        for(int i=nums.length-2;i>=0;i--){
+            suffix[i]=suffix[i+1]*nums[i+1];
         }
         
-        int res[] =new int[nums.length];
-        
-        // if(count>=2) return res;
-         if(count==1){
-             for(int i=0;i<nums.length;i++){
-                if(nums[i]==0){
-                   res[i]=prod;
-                    return res;
-                
-                }
-             }
-        
+        int[] res=new int[nums.length];
+        for(int i=0;i<res.length;i++){
+            res[i]=prefix[i]*suffix[i];
         }
-        else if(count==0){
-              for(int i=0;i<nums.length;i++){
-                  res[i]=prod/nums[i];
-              }
-        }
-        
         return res;
-        
     }
 }
