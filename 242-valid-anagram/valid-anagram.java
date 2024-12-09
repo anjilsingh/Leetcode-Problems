@@ -1,16 +1,14 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
-        //anagrams means same length and same character 
-        //can use sorting or hashmap or use a hashtable 
-        
+        //lets done by using hashmap
         if(s.length()!=t.length()) return false;
+        HashMap<Character,Integer>smap=new HashMap<>();
+        HashMap<Character,Integer>tmap=new HashMap<>();
         
-        char[] scharArr=s.toCharArray();
-        char[] tcharArr=t.toCharArray();
-        Arrays.sort(scharArr);
-        Arrays.sort(tcharArr);
-        String sortedS=new String(scharArr);
-        String sortedT=new String(tcharArr);
-        return sortedS.equals(sortedT);
+        for(int i=0;i<s.length();i++){
+           smap.put(s.charAt(i),smap.getOrDefault(s.charAt(i),0)+1);
+           tmap.put(t.charAt(i),tmap.getOrDefault(t.charAt(i),0)+1);
+        }
+        return smap.equals(tmap);
     }
 }
