@@ -9,25 +9,37 @@
  * }
  */
 class Solution {
+    public ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode currNext = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = currNext;
+        }
+        return prev;
+    }
+
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        if(head==null || head.next==null){
-            if(n==1){
-            return null;
-            }
+        // Reverse the linked list
+        ListNode rev = reverse(head);
+
+        // Special case: removing the first node of the reversed list (nth from end)
+        if (n == 1) {
+            return reverse(rev.next); // Remove the first node and reverse back
         }
-        ListNode slow=head;
-        ListNode fast=head;
-        for(int i=0;i<n;i++){
-           fast=fast.next;
+
+        // Traverse to the (n-1)th node in the reversed list
+        ListNode temp = rev;
+        for (int i = 0; i < n - 2; i++) { // (n-2) iterations to reach (n-1)th node
+            temp = temp.next;
         }
-        if(fast==null){
-           return head.next;
-        }
-        while(fast.next!=null){
-           slow=slow.next;
-           fast=fast.next;
-        }
-        slow.next=slow.next.next;
-        return head;
+
+        // Remove the nth node by skipping it
+        temp.next = temp.next.next;
+
+        // Reverse the list back and return
+        return reverse(rev);
     }
 }
