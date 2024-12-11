@@ -1,27 +1,37 @@
 class Solution {
     public int trap(int[] height) {
-        int n=height.length;
-        int[] leftSide=new int[n];
-        int[] rightSide=new int[n];
-        leftSide[0]=0;
-        rightSide[n-1]=0;
+        //let do it by using two pointer approach
         
-        for(int i=1;i<n;i++){
-            leftSide[i]=Math.max(leftSide[i-1],height[i-1]);
-        }
-        
-        for(int i=n-2;i>=0;i--){
-          rightSide[i]=Math.max(rightSide[i+1],height[i+1]);
-        }
-        
+        //leftMax and rightMax find it from both side 
+        //since min is deciding factor so which side the value is min
+        //that will be dceiding factor and we can calculate that side and then mive further 
+        int l=0;
+        int r=height.length-1;
+        int leftMax=0;
+        int rightMax=0;
         int ans=0;
-        
-        for(int i=0;i<height.length;i++){
-            if((Math.min(leftSide[i],rightSide[i])-height[i])<0) continue;
-            else{
-                 ans+=Math.min(leftSide[i],rightSide[i])-height[i];
-            }
+        while(l<=r){
+          if(leftMax<=rightMax){
+
+              if(leftMax-height[l]>0){
+                 ans+=leftMax-height[l];
+              }
+              else{
+                 leftMax=height[l];
+              }
+             l++;
+          }
+          else{
+              
+              if(rightMax-height[r]>0){
+               ans+=rightMax-height[r];
+              }
+              else{
+                 rightMax=height[r];
+              }
+              r--;
+          }
         }
-      return ans;  
+        return ans;
     }
 }
