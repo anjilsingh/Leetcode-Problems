@@ -1,43 +1,24 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        //lets do it more optimized :)
-        //using sliding window protocol
-        //this is a fixed winow size problem 
-        //so first we compute for s1 length and 
-        //then compute further by removing one character and adding one 
+        
         
         if(s2.length()<s1.length()) return false;
         if(s1.equals(s2)) return true;
         
-        int[] s1arr=new int[26];
-        int[] s2arr=new int[26];
+        char[] s1ch=s1.toCharArray();
+        Arrays.sort(s1ch);
+        String ss1=new String(s1ch);
         
-        for(int i=0;i<s1.length();i++){
-            s1arr[s1.charAt(i)-'a']++;
-            s2arr[s2.charAt(i)-'a']++;
-        
+        for(int i=0;i<s2.length();i++){
+          for(int j=i;j<s2.length();j++){
+           if(j-i+1==s1.length()){
+               char[] wch=s2.substring(i,j+1).toCharArray();
+               Arrays.sort(wch);
+               String ss2=new String(wch);
+               if(ss2.equals(ss1)) return true;
+           }
+          }
         }
-        int matches=0;
-        for(int i=0;i<26;i++){
-         if(s1arr[i]==s2arr[i])  matches++;
-        }
-         int l=0;
-        for(int r=s1.length();r<s2.length();r++){
-            if(matches==26) return true;
-            
-            int index=s2.charAt(r)-'a';
-            s2arr[index]++;
-            if(s1arr[index]==s2arr[index]) matches++;
-            else if(s1arr[index]+1==s2arr[index]) matches--;
-            
-            //now remove from l side
-             index=s2.charAt(l)-'a';
-            s2arr[index]--;
-            if(s1arr[index]==s2arr[index]) matches++;
-            else if(s1arr[index]==s2arr[index]+1) matches--;
-            l++;
-            
-        }
-        return matches==26;
+        return false;
     }
 }
