@@ -4,14 +4,15 @@ class Solution {
         //so we have two options one to 
         //soet the strings or can use a hashtable 
         // or hashmap
+        if(s.length()!=t.length()) return false;
+       HashMap<Character,Integer>ms=new HashMap<>();
+       HashMap<Character,Integer>mt=new HashMap<>();
+       
+      for(int i=0;i<s.length();i++){
+           ms.put(s.charAt(i),ms.getOrDefault(s.charAt(i),0)+1);
+           mt.put(t.charAt(i),mt.getOrDefault(t.charAt(i),0)+1);
+      }
         
-        char[] schar=s.toCharArray();
-        char[] tchar=t.toCharArray();
-        
-        Arrays.sort(schar);
-        String sorteds=new String(schar);
-        Arrays.sort(tchar);
-        String sortedt=new String(tchar);
-        return sorteds.equals(sortedt);
+     return ms.equals(mt);
     }
 }
