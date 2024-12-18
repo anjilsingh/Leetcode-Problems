@@ -1,37 +1,33 @@
 class Solution {
     public int trap(int[] height) {
-        //let do it by using two pointer approach
         
-        //leftMax and rightMax find it from both side 
-        //since min is deciding factor so which side the value is min
-        //that will be dceiding factor and we can calculate that side and then mive further 
-        int l=0;
-        int r=height.length-1;
-        int leftMax=0;
-        int rightMax=0;
-        int ans=0;
-        while(l<=r){
-          if(leftMax<=rightMax){
-
-              if(leftMax-height[l]>0){
-                 ans+=leftMax-height[l];
-              }
-              else{
-                 leftMax=height[l];
-              }
-             l++;
-          }
-          else{
-              
-              if(rightMax-height[r]>0){
-               ans+=rightMax-height[r];
-              }
-              else{
-                 rightMax=height[r];
-              }
-              r--;
-          }
+        //for every bar find its leftmost value and rightmax value 
+        //and then take the min of those two 
+        //if bar value is less then that min 
+        //then find the area based on that
+        
+        
+        int[] leftMax=new int[height.length];
+        int[] rightMax=new int[height.length];
+        
+        
+        leftMax[0]=0;
+        for(int i=1;i<height.length;i++){
+            leftMax[i]=Math.max(leftMax[i-1],height[i-1]);
         }
-        return ans;
+        
+        rightMax[height.length-1]=0;
+        for(int i=height.length-2;i>=0;i--){
+            rightMax[i]=Math.max(rightMax[i+1],height[i+1]);
+        }
+        
+        
+        int amount=0;
+        for(int i=0;i<height.length;i++){
+             if(Math.min(leftMax[i],rightMax[i])-height[i]>0){
+              amount+=Math.min(leftMax[i],rightMax[i])-height[i];
+             }
+        }
+        return amount;
     }
 }
