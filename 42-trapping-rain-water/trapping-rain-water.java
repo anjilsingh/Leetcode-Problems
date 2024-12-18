@@ -1,32 +1,39 @@
 class Solution {
     public int trap(int[] height) {
+       //lets do it by two poninter approach
         
-        //for every bar find its leftmost value and rightmax value 
-        //and then take the min of those two 
-        //if bar value is less then that min 
-        //then find the area based on that
-        
-        
-        int[] leftMax=new int[height.length];
-        int[] rightMax=new int[height.length];
+    //so which is the deciding factor 
+        //we can find the value from both side lefftmax and rightmax
+        //from leess side value we can easily find further 
         
         
-        leftMax[0]=0;
-        for(int i=1;i<height.length;i++){
-            leftMax[i]=Math.max(leftMax[i-1],height[i-1]);
-        }
-        
-        rightMax[height.length-1]=0;
-        for(int i=height.length-2;i>=0;i--){
-            rightMax[i]=Math.max(rightMax[i+1],height[i+1]);
-        }
-        
-        
+        int leftMax=0;
+        int rightMax=0;
+        int left=0;
+        int right=height.length-1;
         int amount=0;
-        for(int i=0;i<height.length;i++){
-             if(Math.min(leftMax[i],rightMax[i])-height[i]>0){
-              amount+=Math.min(leftMax[i],rightMax[i])-height[i];
-             }
+        while(left<=right){
+            if(leftMax<=rightMax){
+                if(height[left]<leftMax){
+                    amount+=leftMax-height[left];
+                    
+                }
+                else{
+                    
+                    leftMax=height[left];
+                }
+                left++;
+            }
+            else{
+                if(height[right]<rightMax){
+                    
+                    amount+=rightMax-height[right];
+                }
+                else{
+                rightMax=height[right];
+                }
+                right--;
+            }
         }
         return amount;
     }
