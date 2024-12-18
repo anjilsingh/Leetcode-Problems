@@ -1,20 +1,20 @@
 class Solution {
     public int lengthOfLongestSubstring(String s) {
+        int length=0;
+        //lets see the bf generate all substring 
+        //without repeating characters
         
-        //lets see the bruteforce approach
         
-        int len=s.length();
-        int mlen=0;
-        for(int i=0;i<len;i++){
+        for(int i=0;i<s.length();i++){
             HashSet<Character>seen=new HashSet<>();
-            for(int j=i;j<len;j++){
+           for(int j=i;j<s.length();j++){
               if(seen.contains(s.charAt(j))) break;
               else{
-                seen.add(s.charAt(j));
-                mlen=Math.max(mlen,j-i+1);
+                  seen.add(s.charAt(j));
+                  length=Math.max(length,j-i+1);
               }
-            }
+           }
         }
-        return mlen;
+        return length;
     }
 }
