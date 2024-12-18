@@ -1,30 +1,15 @@
 class Solution {
     public boolean isPalindrome(String s) {
+        //can do it by removing extra spaces and then creating it using a string bbbuilder
+        // and then reverse it 
         
-        int low=0;
-        int high=s.length()-1;
-        while(low<=high){
-            
-            char lChar=Character.toLowerCase(s.charAt(low));
-            char hChar=Character.toLowerCase(s.charAt(high));
-            
-            if(Character.isLetterOrDigit(lChar)&& Character.isLetterOrDigit(hChar)){
-                if(lChar!=hChar){
-                  return false;
-                }
-                low++;
-                high--;
-            }
-            else if(Character.isLetterOrDigit(lChar)){
-                high--;
-            }
-            else{
-                low++;
-            }
-            
-            
+        
+        StringBuilder sb=new StringBuilder();
+        for(char c:s.toCharArray()){
+            if(Character.isLetterOrDigit(c))
+           sb.append(Character.toLowerCase(c));
         }
-        return true;
         
+        return sb.toString().equals(sb.reverse().toString());
     }
 }
