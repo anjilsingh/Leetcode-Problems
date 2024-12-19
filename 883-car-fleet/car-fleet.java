@@ -1,28 +1,27 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
+
 class Solution {
     public int carFleet(int target, int[] position, int[] speed) {
-        int n = position.length;
-        // Create array to store position-time pairs
-        double[][] cars = new double[n][2];
-        
-        // Store position and calculate time to reach target for each car
-        for (int i = 0; i < n; i++) {
-            cars[i] = new double[] {position[i], (double)(target - position[i]) / speed[i]};
+        ArrayList<int[]> arr = new ArrayList<>();
+        for (int i = 0; i < position.length; i++) {
+            arr.add(new int[]{position[i], speed[i]});
         }
-        
-        // Sort by position in descending order
-        Arrays.sort(cars, (a, b) -> Double.compare(b[0], a[0]));
-        
-        double slowest = 0;
-        int fleets = 0;
-        
-        // Process cars from right to left
-        for (int i = 0; i < n; i++) {
-            if (cars[i][1] > slowest) {
-                slowest = cars[i][1];
-                fleets++;
+
+        // Sort based on position in descending order
+        arr.sort((a, b) -> b[0] - a[0]);
+
+        Stack<Double> st = new Stack<>();
+        for (int[] p : arr) {
+            // Calculate time to reach the target
+            double time = (double) (target - p[0]) / p[1];
+            if (!st.isEmpty() && time <= st.peek()) {
+                // Merge fleets if necessary
+                continue;
             }
+            st.push(time);
         }
-        
-        return fleets;
+        return st.size();
     }
 }
