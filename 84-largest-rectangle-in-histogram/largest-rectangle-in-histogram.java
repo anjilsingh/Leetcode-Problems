@@ -1,30 +1,34 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
-        //second way is to use 
-        //stack
-        //for any index we push it till we can and when we remove it 
-        
         int n=heights.length;
-        Stack<int[]>st=new Stack<>();
-        int marea=0;
-        for(int i=0;i<n;i++){
-            int start=i;
-            while(!st.isEmpty() && st.peek()[1]>heights[i]){
-                int ele[]=st.pop();
-                int index=ele[0];
-                int val=ele[1];
-                marea=Math.max(marea,(i-index)*val);
-                start=index;
+        int[] lmin=new int[n];
+        int[] rmin=new int[n];
+        Stack<Integer>st=new Stack<>();
+        for(int i=0;i<heights.length;i++){
+             while(!st.isEmpty() && heights[st.peek()]>=heights[i]){
+               st.pop();
+             }
+            
+            lmin[i]=st.isEmpty()?-1:st.peek();
+            st.push(i);
+        }
+        st.clear();
+        
+        //rightmin
+        
+        for(int i=n-1;i>=0;i--){
+            while(!st.isEmpty() && heights[st.peek()]>=heights[i]){
+                st.pop();
             }
-            st.push(new int[]{start,heights[i]});
+            rmin[i]=st.isEmpty()?n:st.peek();
+            st.push(i);
         }
-       
-        while(!st.isEmpty()){
-           int rem[]=st.pop();
-           int ind=rem[0];
-           int value=rem[1];
-            marea=Math.max(marea,(n-ind)*value);
+        
+        int mArea=0;
+        for(int i=0;i<heights.length;i++){
+          int area=(rmin[i]-lmin[i]-1)*heights[i];
+          mArea=Math.max(mArea,area);
         }
-        return marea;
+        return mArea;
     }
 }
