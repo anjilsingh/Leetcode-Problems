@@ -1,34 +1,27 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
+        //lets do by best appraoch
+        Stack<int[]>st=new Stack<>();
         int n=heights.length;
-        int[] lmin=new int[n];
-        int[] rmin=new int[n];
-        Stack<Integer>st=new Stack<>();
-        for(int i=0;i<heights.length;i++){
-             while(!st.isEmpty() && heights[st.peek()]>=heights[i]){
-               st.pop();
-             }
-            
-            lmin[i]=st.isEmpty()?-1:st.peek();
-            st.push(i);
-        }
-        st.clear();
-        
-        //rightmin
-        
-        for(int i=n-1;i>=0;i--){
-            while(!st.isEmpty() && heights[st.peek()]>=heights[i]){
-                st.pop();
+        int area=0;
+        for(int i=0;i<n;i++){
+            int start=i;
+            while(!st.isEmpty() && st.peek()[1]>heights[i]){
+                int[] curr=st.pop();
+                int ind=curr[0];
+                int ele=curr[1];
+                area=Math.max(area,(i-ind)*ele);
+                start=ind;
             }
-            rmin[i]=st.isEmpty()?n:st.peek();
-            st.push(i);
+            st.push(new int[]{start,heights[i]});
         }
         
-        int mArea=0;
-        for(int i=0;i<heights.length;i++){
-          int area=(rmin[i]-lmin[i]-1)*heights[i];
-          mArea=Math.max(mArea,area);
+        while(!st.isEmpty()){
+           int[] curr=st.pop();
+            int ind=curr[0];
+            int ele=curr[1];
+            area=Math.max(area,(n-ind)*ele);
         }
-        return mArea;
+        return area;
     }
 }
