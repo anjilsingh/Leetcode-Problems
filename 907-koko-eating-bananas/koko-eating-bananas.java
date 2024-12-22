@@ -1,29 +1,29 @@
 class Solution {
     public int minEatingSpeed(int[] piles, int h) {
-        //now instead of this we can use binary search 
-        
         int max=piles[0];
         for(int i=0;i<piles.length;i++){
             if(piles[i]>max) max=piles[i];
         }
-        int ans=max;
-        int left=0;
-        int right=max;
         
-        while(left<=right){
-           int mid=(left+right)/2;
-           int total=0;
-            for(int i=0;i<piles.length;i++){
-              total+=Math.ceil((double)piles[i]/mid);
+        //now linear serach from 1 tp max
+        int ans=max;
+        int low=0;
+        int high=max;
+        while(low<=high){
+            int mid=(low+high)/2;
+            int  total=0;
+            for(int j=0;j<piles.length;j++){
+              total+=Math.ceil((double)piles[j]/mid);
             }
-            if(total>h){
-              left=mid+1;
+            if(total<=h){
+              ans=mid;
+             high=mid-1;
             }
             else{
-                ans=mid;
-                right=mid-1;
+              low=mid+1;
             }
         }
         return ans;
+        
     }
 }
