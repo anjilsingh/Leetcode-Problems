@@ -1,15 +1,14 @@
 class TimeMap {
-    private static class Pair{
+    public static class Pair{
       int ts;
-     String val;
-     Pair(int ts,String val){
-        this.ts=ts;
-        this.val=val;
-     }
+      String val;
+        Pair(int ts,String val){
+            this.ts=ts;
+            this.val=val;
+        }
     }
-     //first create a hashmap
-    HashMap<String,List<Pair>>mp;
     
+    HashMap<String,List<Pair>>mp;
     public TimeMap() {
         mp=new HashMap<>();
     }
@@ -21,21 +20,26 @@ class TimeMap {
     
     public String get(String key, int timestamp) {
         if(!mp.containsKey(key)) return "";
-        List<Pair>list=mp.get(key);
-       String res="";
-       int left=0;
-       int right=list.size()-1;
-        while(left<=right){
-          int mid=left+(right-left)/2;
-          if(list.get(mid).ts<=timestamp){
-              res=list.get(mid).val;
-              left=mid+1;
-          }
-            else{
-                 right=mid-1;
+        String ans="";
+        List<Pair>al=mp.get(key);
+        
+        int l=0;
+        int r=al.size()-1;
+        
+        while(l<=r){
+            int mid=(l+r)/2;
+            if(al.get(mid).ts==timestamp) return al.get(mid).val;
+            else if(al.get(mid).ts<timestamp)
+            {ans= al.get(mid).val;
+              l=mid+1;
+             }
+            else {
+              r=mid-1;
             }
         }
-        return res;
+        
+        return ans;
+        
     }
 }
 
