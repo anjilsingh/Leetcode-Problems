@@ -1,50 +1,35 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int n=nums1.length+nums2.length;
+        int len1=nums1.length;
+        int len2=nums2.length;
+        if(len1>len2) return findMedianSortedArrays(nums2,nums1);
         
-        int i=0;
-        int j=0;
-        int index1=-1;
-        int index2=-1;
-        int index=0;
-        while(i<nums1.length && j<nums2.length){
-            if(nums1[i]<=nums2[j]){
-               
-                if(index==n/2-1) index1=nums1[i];
-                if(index==n/2) index2=nums1[i];
-                index++;
-                i++;
+        int half=(len1+len2+1)/2;
+        int l=0;
+        int r=len1;
+        
+        while(l<=r){
+            int mid1=(l+r)/2;
+            int mid2=half-mid1;
+            
+            int l1=mid1>0?nums1[mid1-1]:Integer.MIN_VALUE;
+            int l2=mid2>0?nums2[mid2-1]:Integer.MIN_VALUE;
+            int r1=mid1<len1?nums1[mid1]:Integer.MAX_VALUE;
+            int r2=mid2<len2?nums2[mid2]:Integer.MAX_VALUE;
+            
+            if(l1<=r2 && l2<=r1){
+                //even case 
+               if((len1+len2)%2==0) return (double)                     (Math.max(l1,l2)+Math.min(r1,r2))/2;
+                else return Math.max(l1,l2);
+            }
+            else if(l1<r2){
+               l=mid1+1;
             }
             else{
-             
-                if(index==n/2-1) index1=nums2[j];
-                if(index==n/2) index2=nums2[j];
-                 index++;
-                j++;
+             r=mid1-1;
             }
-            
+
         }
-        while(i<nums1.length){
-      
-               if(index==n/2-1) index1=nums1[i];
-                if(index==n/2) index2=nums1[i];
-                  index++;
-            i++;
-          
-        }
-        while(j<nums2.length){
-             
-               if(index==n/2-1) index1=nums2[j];
-                if(index==n/2) index2=nums2[j];
-             index++;
-            j++;
-        }
-        
-        if(n%2==0){
-            return (double)(index1+index2)/2;
-        }
-        else{
-           return (double)index2;
-        }
+        return -1;
     }
 }
