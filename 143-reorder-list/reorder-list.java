@@ -10,49 +10,43 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        //very easy guys 
-        //first just find the middle value 
-        //uhmmm simple fast and slow pointer appraoch
+     //first find the middle of ll
+     //then rev the sec list 
+    //a snd then put one one 
+        
+        
         ListNode fast=head;
         ListNode slow=head;
         while(fast!=null && fast.next!=null){
-            slow=slow.next;
             fast=fast.next.next;
+            slow=slow.next;
         }
-        
-        //now slow is our middle value so we will divide our ll in two parts 
-        //one till slow
-        //and other from slow to end
-        
         
         ListNode sec=slow.next;
         slow.next=null;
+        //rev the sec ll
+        ListNode curr=sec;
+        ListNode temp=null;
         ListNode prev=null;
-        //no i need to reverse the linkedlist starting from sec
-        
-        while(sec!=null){
-            ListNode secnext=sec.next;
-            sec.next=prev;
-            prev=sec;
-            sec=secnext;
-
+        while(curr!=null){
+           ListNode currNext=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=currNext;
         }
         
-        //now prev is my second list head
+        ListNode secHead=prev;
+        ListNode firstHead=head;
         
-        sec=prev;
-        //no merge the list 
-        ListNode first=head;
-        while(sec!=null){
-          ListNode temp1=first.next;
-          ListNode temp2=sec.next;
-          first.next=sec;
-          sec.next=temp1;
-          first=temp1;
-          sec=temp2;
-
+        while(secHead!=null){
+            ListNode firstHeadnext=firstHead.next;
+            ListNode secHeadnext=secHead.next;
+            
+            firstHead.next=secHead;
+            secHead.next=firstHeadnext;
+            firstHead=firstHeadnext;
+            secHead=secHeadnext;
         }
-        
-        
+          
     }
 }
