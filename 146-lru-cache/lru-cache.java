@@ -30,7 +30,7 @@ class LRUCache {
         Node nodePrev=node.prev;
         nodePrev.next=nodeNext;
         nodeNext.prev=nodePrev;
-        cache.remove(node);
+        //cache.remove(node);
     }
     
     public void insert(Node node){
