@@ -1,69 +1,72 @@
 public class Node{
     int key;
-    int val;
+    int value;
     Node next;
     Node prev;
-    Node(int key,int val){
-        this.key=key;
-        this.val=val;
+    
+    Node(int key,int value){
+      this.key=key;
+        this.value=value;
         this.next=null;
         this.prev=null;
-        
-        
     }
+    
 }
 class LRUCache {
-    int capacity;
-    HashMap<Integer,Node>cache;
+     int capacity;
+     HashMap<Integer,Node>cache;
     Node left;
     Node right;
+    
     public LRUCache(int capacity) {
         this.capacity=capacity;
         cache=new HashMap<>();
-        this.left=new Node(0,0);
-        this.right=new Node(0,0);     
-        this.left.next=right;
-        this.right.prev=left;
+        left=new Node(0,0);
+        right=new Node(0,0);
+        left.next=right;
+        right.prev=left;
     }
+    
     public void delete(Node node){
-        Node nodeNext=node.next;
         Node nodePrev=node.prev;
-        nodePrev.next=nodeNext;
+        Node nodeNext=node.next;
         nodeNext.prev=nodePrev;
-        //cache.remove(node);
+        nodePrev.next=nodeNext;
     }
     
     public void insert(Node node){
-      Node prev=this.right.prev;
-      prev.next=node;
-      node.prev=prev;
-      node.next=this.right;
-      this.right.prev=node;
+        Node rightPrev=this.right.prev;
+        rightPrev.next=node;
+        node.prev=rightPrev;
+        node.next=this.right;
+        this.right.prev=node;
         
     }
     public int get(int key) {
         if(cache.containsKey(key)){
-          Node node=cache.get(key);
-          delete(node);
-          insert(node);
-          return node.val;
+            //value of associated key that is a node type 
+            Node node=cache.get(key);
+            delete(node);
+            insert(node);
+            return node.value;
         }
         return -1;
     }
     
     public void put(int key, int value) {
         if(cache.containsKey(key)){
-          delete(cache.get(key));
+             delete(cache.get(key));
         }
-        Node newNode=new Node(key,value);
-        cache.put(key,newNode);
+        Node newNode =new Node(key,value);
         insert(newNode);
+        cache.put(key,newNode);
         
-        if (cache.size() > capacity) {
-            Node lru = this.left.next;
+        if(cache.size()>capacity){
+             Node lru=this.left.next;
             delete(lru);
             cache.remove(lru.key);
         }
+        
     }
 }
 
