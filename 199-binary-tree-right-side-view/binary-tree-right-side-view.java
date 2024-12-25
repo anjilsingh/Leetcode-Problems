@@ -15,26 +15,23 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        if (root == null) {
-            return ans;
+        List<Integer>ans=new ArrayList<>();
+        if(root==null) return ans;
+        Queue<TreeNode>q=new LinkedList<>();
+        q.add(root);
+        
+        while(!q.isEmpty()){
+              int lSize=q.size();
+              int rMost=-1;
+              for(int i=0;i<lSize;i++){
+                 TreeNode node=q.poll();
+                 rMost=node.val;
+                  if(node.left!=null)  q.add(node.left);
+                  if(node.right!=null) q.add(node.right);
+                 
+              }
+            ans.add(rMost);
         }
-        recRight(root, ans, 0);
         return ans;
-    }
-
-    private void recRight(TreeNode root, List<Integer> res, int level) {
-        if (root == null) {
-            return;
-        }
-
-        // If this is the first node of this level
-        if (level == res.size()) {
-            res.add(root.val);
-        }
-
-        // Recurse for right subtree first, then left subtree
-        recRight(root.right, res, level + 1);
-        recRight(root.left, res, level + 1);
     }
 }
