@@ -14,23 +14,12 @@
  * }
  */
 class Solution {
+    public boolean isVal(TreeNode root,long lb,long rb){
+        if(root==null) return true;
+        if(root.val>=rb ||root.val<=lb) return false;
+        return (isVal(root.left,lb,root.val) && isVal(root.right,root.val,rb));
+    }
     public boolean isValidBST(TreeNode root) {
-        ArrayList<Integer>ans=new ArrayList<>();
-        in(root,ans);
-        return check(ans);
-    }
-    private static void in(TreeNode root,ArrayList<Integer>ans){
-       if(root==null){return;}
-       in(root.left,ans);
-       ans.add(root.val);
-        in(root.right,ans);
-    }
-    private static boolean check(ArrayList<Integer>ans){
-       for(int i=0;i<ans.size()-1;i++){
-          if(ans.get(i)>=ans.get(i+1)){
-             return false;
-          }
-       }
-        return true;
+       return isVal(root,Long.MIN_VALUE,Long.MAX_VALUE);
     }
 }
