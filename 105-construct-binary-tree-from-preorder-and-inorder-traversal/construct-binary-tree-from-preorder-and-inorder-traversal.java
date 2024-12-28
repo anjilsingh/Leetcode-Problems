@@ -13,31 +13,28 @@
  *     }
  * }
  */
-import java.util.HashMap;
-import java.util.Map;
-
-
-
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        Map<Integer, Integer> inmap = new HashMap<>();
-        for (int i = 0; i < inorder.length; i++) {
-            inmap.put(inorder[i], i);
-        }
-        return buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inmap);
-    }
-
-    private TreeNode buildTree(int[] preor, int preSt, int preEnd, int[] inor, int inSt, int inEnd, Map<Integer, Integer> inmap) {
-        if (preSt > preEnd || inSt > inEnd) {
+        if (preorder.length == 0 || inorder.length == 0) {
             return null;
         }
 
-        TreeNode root = new TreeNode(preor[preSt]);
-        int inroot = inmap.get(root.val);
-        int numsLeft = inroot - inSt;
+        TreeNode root = new TreeNode(preorder[0]);
+        int mid = -1;
+        for (int i = 0; i < inorder.length; i++) {
+            if (inorder[i] == preorder[0]) {
+                mid = i;
+                break;
+            }
+        }
 
-        root.left = buildTree(preor, preSt + 1, preSt + numsLeft, inor, inSt, inroot - 1, inmap);
-        root.right = buildTree(preor, preSt + numsLeft + 1, preEnd, inor, inroot + 1, inEnd, inmap);
+        int[] leftPreorder = Arrays.copyOfRange(preorder, 1, mid + 1);
+        int[] leftInorder = Arrays.copyOfRange(inorder, 0, mid);
+        root.left = buildTree(leftPreorder, leftInorder);
+
+        int[] rightPreorder = Arrays.copyOfRange(preorder, mid + 1, preorder.length);
+        int[] rightInorder = Arrays.copyOfRange(inorder, mid + 1, inorder.length);
+        root.right = buildTree(rightPreorder, rightInorder);
 
         return root;
     }
