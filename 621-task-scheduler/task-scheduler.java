@@ -1,36 +1,51 @@
+class Task implements Comparable<Task> {
+    public int freq;
+    public int exeT;
+
+    public Task(int f, int e) {
+        freq = f;
+        exeT = e;
+    }
+
+    @Override
+    public int compareTo(Task that) {
+        return that.freq - this.freq; // Max-Heap behavior
+    }
+}
+
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-        HashMap<Character,Integer>mp=new HashMap<>();
-        for(int i=0;i<tasks.length;i++){
-          mp.put(tasks[i],mp.getOrDefault(tasks[i],0)+1);
+        HashMap<Character, Integer> mp = new HashMap<>();
+        for (char ch : tasks) {
+            mp.put(ch, mp.getOrDefault(ch, 0) + 1);
         }
-        PriorityQueue<Integer>maxHeap=new PriorityQueue<>((a,b)->b-a);
-        for(int freg:mp.values()){
-                maxHeap.offer(freg);
-        }
-        int intervals=0;
-        while(!maxHeap.isEmpty()){
-            int count=0;
-            List<Integer>temp=new ArrayList<>();
-            for(int i=0;i<=n;i++){
-              if (!maxHeap.isEmpty()){
 
-                temp.add(maxHeap.poll());
-                count++;
-              }                            
-            }
-            
-            for(int freq:temp){
-                if(freq-1>0){
-                   maxHeap.offer(freq-1);
+        PriorityQueue<Task> pq = new PriorityQueue<>();
+        for (Character ch : mp.keySet()) {
+            pq.add(new Task(mp.get(ch), 0));
+        }
+
+        Queue<Task> q = new LinkedList<>();
+        int time = 0;
+
+        while (!pq.isEmpty() || !q.isEmpty()) {
+            time++;
+
+            if (!pq.isEmpty()) {
+                Task task = pq.poll();
+                task.freq--;
+
+                if (task.freq > 0) {
+                    task.exeT = time + n;
+                    q.offer(task);
                 }
-
             }
-            
-            intervals+=!maxHeap.isEmpty()?n+1:count;
-            
-            
+
+            if (!q.isEmpty() && q.peek().exeT <= time) {
+                pq.add(q.poll());
+            }
         }
-        return intervals;
+
+        return time;
     }
 }
