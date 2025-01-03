@@ -1,59 +1,41 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if(t.length()==0) return "";
-        
-        HashMap<Character,Integer>tmp=new HashMap<>();
-        HashMap<Character,Integer>smp=new HashMap<>();
-        
-        for(char c:t.toCharArray()){
-              tmp.put(c,tmp.getOrDefault(c,0)+1);
+        //concept if need and have 
+        if (s == null || t == null || s.length() < t.length()) {
+            return "";
         }
-        int need=tmp.size();
-        
-        int ind[]={-1,-1};
+        HashMap<Character,Integer>mpT=new HashMap<>();
+        for(int i=0;i<t.length();i++){
+            mpT.put(t.charAt(i),mpT.getOrDefault(t.charAt(i),0)+1);
+        }
+        int need=mpT.size();
         int have=0;
         int l=0;
+        int len=s.length()+1;
+        int[] index={-1,-1};
+        HashMap<Character,Integer>mpS=new HashMap<>();
         for(int r=0;r<s.length();r++){
-            char ch=s.charAt(r);
-        
-            
-          if (tmp.containsKey(ch)) {
-                smp.put(ch, smp.getOrDefault(ch, 0) + 1);
-                if (smp.get(ch).equals(tmp.get(ch))) {
-                    have++;
-                }
+            mpS.put(s.charAt(r),mpS.getOrDefault(s.charAt(r),0)+1);
+            if(mpT.containsKey(s.charAt(r)) && mpS.get(s.charAt(r)).equals(mpT.get(s.charAt(r)))){
+                have++;
             }
 
             while(have==need){
-               
-                if(ind[0]==-1 || (ind[1]-ind[0]+1)>=r-l+1){
-
-                 ind[0]=l;
-                 ind[1]=r;
-                }
-                
-                //now remove the character from l pointer side
-                
-                char c=s.charAt(l);
-               
-                
-     if (tmp.containsKey(c)) {
-                    smp.put(c, smp.get(c) - 1);
-                    if (smp.get(c) < tmp.get(c)) {
-                        have--;
-                    }
-                    if (smp.get(c) == 0) {
-                        smp.remove(c);
-                    }
-                }
-                l++;
-
+                  if(r-l+1<len){
+                     len=r-l+1;
+                     index[0]=l;
+                     index[1]=r;
+                  }
+                  mpS.put(s.charAt(l),mpS.getOrDefault(s.charAt(l),0)-1);
+                 if(mpT.containsKey(s.charAt(l))){
+                 if(mpS.get(s.charAt(l))<mpT.get(s.charAt(l))){
+                    have--;
+                 }
+                 }
+                 l++;
             }
-
-        
         }
-        
-        if(ind[0]==-1) return "";
-        return s.substring(ind[0],ind[1]+1);
+        if(len==s.length()+1) return "";
+        return s.substring(index[0],index[1]+1);
     }
 }
