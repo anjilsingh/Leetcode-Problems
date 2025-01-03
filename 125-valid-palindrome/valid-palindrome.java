@@ -1,27 +1,19 @@
 class Solution {
+    public boolean isalphaNum(char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'));
+}
+
     public boolean isPalindrome(String s) {
-        //lets do it by using two ;pointer
-        
         int l=0;
         int r=s.length()-1;
-        
         while(l<r){
-            char leftChar=Character.toLowerCase(s.charAt(l));
-            char rightChar=Character.toLowerCase(s.charAt(r));
-            
-            if(Character.isLetterOrDigit(leftChar) && Character.isLetterOrDigit(rightChar)) {
-                 if(leftChar!=rightChar) return false;
-                 l++;
-                r--;
-            }
-            else if(Character.isLetterOrDigit(leftChar)){
-              r--;
-            }
-            else{
-                l++;
-            }
+            while(l<r && !isalphaNum(s.charAt(l))) l++;
+            while(r>l &&!isalphaNum(s.charAt(r))) r--;
+
+            if(Character.toLowerCase(s.charAt(l))!=Character.toLowerCase(s.charAt(r))) return false;
+            l++;
+            r--;
         }
-        
         return true;
     }
 }
