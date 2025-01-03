@@ -1,33 +1,16 @@
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int[] ans=new int[nums.length];
-        int prod=1;
-        int zeroCount=0;
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]==0) {
-                zeroCount++;
-            }
-            else{
-                prod*=nums[i];
-            }
+        int[] output=new int[nums.length];
+        output[0]=1;
+        for(int i=1;i<output.length;i++){
+            output[i]=nums[i-1]*output[i-1];
         }
-
-        if(zeroCount>=2) return ans;
-        else if(zeroCount==1) {
-            for(int i=0;i<nums.length;i++){
-                if(nums[i]==0){
-                    ans[i]=prod;
-                    return ans;
-                }
-            }
+        int suffix=1;
+        for(int i=output.length-1;i>=0;i--){
+            output[i]=suffix*output[i];
+            suffix=suffix*nums[i];
         }
-        else{
-            for(int i=0;i<nums.length;i++){
-                ans[i]=prod/nums[i];
-                
-            }
-        }
-      return ans;
-       // return ans;
+        return output;
+        
     }
 }
