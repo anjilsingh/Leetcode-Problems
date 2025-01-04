@@ -5,18 +5,13 @@ class Solution {
             arr.add(new int[]{position[i],speed[i]});
         }
         arr.sort((a,b)->b[0]-a[0]);
-        
-        
         Stack<Double>st=new Stack<>();
-        for(int[] p:arr){
-          double dis=(double)(target-p[0])/p[1];
-          
-          if(!st.isEmpty() && dis<=st.peek()){
-             continue;
-            //they will gonna collide  
-              
-          }
-          st.push(dis);
+        for(int i=0;i<position.length;i++){
+             double time=(double)(target-arr.get(i)[0])/arr.get(i)[1];
+             if(!st.isEmpty() && st.peek()>=time){
+                continue;
+             }
+             st.push(time);
         }
         return st.size();
     }
