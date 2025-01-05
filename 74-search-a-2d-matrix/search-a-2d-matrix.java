@@ -1,36 +1,34 @@
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        
+        //can use the concept of first decide the row and find the ele in that row 
         int row=matrix.length-1;
         int col=matrix[0].length-1;
-        
-        int top=0;
-        int bot=row;
-        while(top<=bot){
-            int mid=(top+bot)/2;
-            if(target<matrix[mid][0]) {
-             bot=mid-1;
+
+        int low=0;
+        int high=row;
+        while(low<=high){
+            int mid=(high+low)/2;
+            if(target<matrix[mid][0]){
+                high=mid-1;
             }
             else if(target>matrix[mid][col]){
-              top=mid+1;
+                low=mid+1;
             }
             else{
-              break;
+                break;
             }
         }
-     
-        if(bot<top){
-            return false;
-        }
-        int ro=(top+bot)/2;
-        
-        int l=0;
-        int r=col;
-        while(l<=r){
-           int mid=(l+r)/2;
-            if(matrix[ro][mid]==target) return true;
-            else if(matrix[ro][mid]<target) l=mid+1;
-            else r=mid-1;
+        if(low>high) return false;
+        int r=(high+low)/2;
+
+        int left=0;
+        int right=col;
+
+        while(left<=right){
+            int mid=(right+left)/2;
+            if(matrix[r][mid]==target) return true;
+            else if(matrix[r][mid]<target) left=mid+1;
+            else right=mid-1;
         }
         return false;
     }
