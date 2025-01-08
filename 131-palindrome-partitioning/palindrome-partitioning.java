@@ -2,7 +2,7 @@ class Solution {
     public boolean isPalin(String s){
         int left=0;
         int right=s.length()-1;
-        while(left<right){
+        while(left<=right){
             if(s.charAt(left)!=s.charAt(right)){
                 return false;
             }
@@ -11,12 +11,13 @@ class Solution {
         }
         return true;
     }
-    public void solve(String s,int index,int n,List<List<String>>res,List<String>curr){
-        //base case 
+    public void solve(String s,int index, int n, List<List<String>>res,List<String>curr){
+        //base case
         if(index>=n){
             res.add(new ArrayList<>(curr));
+            return;
         }
-        //rec solve
+
         for(int i=index;i<n;i++){
             if(isPalin(s.substring(index,i+1))){
                 curr.add(s.substring(index,i+1));
