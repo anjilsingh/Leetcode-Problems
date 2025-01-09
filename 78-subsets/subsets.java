@@ -1,24 +1,16 @@
-
-
 class Solution {
-
-    private void solve(int index, int[] nums, List<List<Integer>> ans, List<Integer> currentSet) {
-        if (index == nums.length) {
-            ans.add(currentSet); // Add the current subset to the result
-            return;
+    public void solve(List<List<Integer>>res,int[] nums,int start,int n,List<Integer>curr){
+        res.add(new ArrayList<>(curr));
+        for(int i=start;i<n;i++){
+               curr.add(nums[i]);
+               solve(res,nums,i+1,n,curr);
+               curr.remove(curr.size()-1);
         }
-
-        // Exclude the current element and move to the next index
-        solve(index + 1, nums, ans, new ArrayList<>(currentSet));
-
-        // Include the current element and move to the next index
-        currentSet.add(nums[index]);
-        solve(index + 1, nums, ans, new ArrayList<>(currentSet));
     }
-
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        solve(0, nums, ans, new ArrayList<>());
-        return ans;
+        List<List<Integer>>res=new ArrayList<>();
+        int n=nums.length;
+        solve(res,nums,0,n,new ArrayList<>());
+        return res;
     }
 }
