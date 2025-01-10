@@ -1,23 +1,20 @@
 class Solution {
-    public static void solve(int[] candidates,int target,int sum,List<List<Integer>>ans,List<Integer>curr,int index,int n){
-        if(target==sum){
-            ans.add(new ArrayList<>(curr));
+    public void solve(int[] candidates,int target,List<List<Integer>>res,List<Integer>curr,int start,int sum){
+        if(sum==target){
+            res.add(new ArrayList<>(curr));
             return;
         }
-        if(sum>target) {return;}
-        for(int i=index;i<n;i++){
-           
+        if(sum>target) return;
+        for(int i=start;i<candidates.length;i++){
             curr.add(candidates[i]);
-            solve(candidates,target,sum+candidates[i],ans,curr,i,n);
-    
+            solve(candidates,target,res,curr,i,sum+candidates[i]);
             curr.remove(curr.size()-1);
         }
         
     }
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>>ans=new ArrayList<>();
-        int n=candidates.length;
-        solve(candidates,target,0,ans,new ArrayList<>(),0,n);
-        return ans;
+        List<List<Integer>>res=new ArrayList<>();
+        solve(candidates,target,res,new ArrayList<>(),0,0);
+        return res;
     }
 }
