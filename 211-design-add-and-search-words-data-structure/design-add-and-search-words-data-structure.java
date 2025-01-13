@@ -1,58 +1,55 @@
 class Node{
-    Node children[];
-    boolean eow=false;
-
+    Node child[];
+    boolean eow;
     Node(){
-        children=new Node[26];
+        child=new Node[26];
         eow=false;
     }
-
 }
 class WordDictionary {
     Node root;
     public WordDictionary() {
-         root=new Node();
+        root=new Node();
     }
     
     public void addWord(String word) {
         Node curr=root;
         for(int i=0;i<word.length();i++){
             int index=word.charAt(i)-'a';
-
-            if(curr.children[index]==null){
-             curr.children[index]=new Node();
+            if(curr.child[index]==null){
+                curr.child[index]=new Node();
             }
             if(i==word.length()-1){
-                curr.children[index].eow=true;
+                curr.child[index].eow=true;
             }
-            curr=curr.children[index];
+            curr=curr.child[index];
         }
     }
-    
-    public boolean search(String word) {
-        return searchUtil(word,root);
-    }
     public boolean searchUtil(String word,Node root){
-        Node curr=root;
-
         for(int i=0;i<word.length();i++){
             int index=word.charAt(i)-'a';
             char ch=word.charAt(i);
-
             if(ch=='.'){
-                for(int j=0;j<26;j++){
-                    if(curr.children[j]!=null){
-                        if(searchUtil(word.substring(i+1),curr.children[j])) return true;
-                    }
+               for(int j=0;j<26;j++){
+                if(root.child[j]!=null){
+                    if(searchUtil(word.substring(i+1),root.child[j])) return true;
                 }
-                return false;
+               }
+               return false;
             }
-            else {
-                if(curr.children[index]==null) return false;
-                curr=curr.children[index];
+            else{
+                if(root.child[index]==null){
+                    return false;
+                }
+                root=root.child[index];
             }
+           
         }
-        return curr.eow;
+         return root.eow;
+    }
+    public boolean search(String word) {
+        Node curr=root;
+        return searchUtil(word,curr);
     }
 }
 
