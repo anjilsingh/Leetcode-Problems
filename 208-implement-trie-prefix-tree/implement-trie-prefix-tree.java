@@ -39,12 +39,12 @@ class Trie {
             if(curr.children[index]==null){
                 return false;
             }
-            if(i==word.length()-1 && curr.children[index].eow==false){
-                return false;
-            }
+            // if(i==word.length()-1 && curr.children[index].eow==false){
+            //     return false;
+            // }
             curr=curr.children[index];
         }
-        return true;
+        return curr.eow;
     }
     
     public boolean startsWith(String prefix) {
