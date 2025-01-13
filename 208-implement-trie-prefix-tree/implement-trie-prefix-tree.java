@@ -1,65 +1,52 @@
-class TrieNode{
-    TrieNode[] children;
+class Node{
+    Node child[];
     boolean eow;
-    TrieNode(){
-        children=new TrieNode[26];
-        for(int i=0;i<26;i++){
-            children[i]=null;
-        }
+    Node(){
+        child=new Node[26];
         eow=false;
     }
 }
 class Trie {
-   TrieNode root;
+    Node root;
     public Trie() {
-        root=new TrieNode();
+        root=new Node();
     }
     
     public void insert(String word) {
-        TrieNode curr=root;
+        Node curr=root;
         for(int i=0;i<word.length();i++){
             int index=word.charAt(i)-'a';
 
-            if(curr.children[index]==null){
-                curr.children[index]=new TrieNode();
+            if(curr.child[index]==null){
+                curr.child[index]=new Node();
             }
             if(i==word.length()-1){
-                curr.children[index].eow=true;
+                curr.child[index].eow=true;
             }
-            curr=curr.children[index];
-        }
 
+            curr=curr.child[index];
+        }
     }
     
     public boolean search(String word) {
-          TrieNode curr=root;
+        Node curr=root;
         for(int i=0;i<word.length();i++){
             int index=word.charAt(i)-'a';
+            if(curr.child[index]==null) return false;
 
-            if(curr.children[index]==null){
-                return false;
-            }
-            // if(i==word.length()-1 && curr.children[index].eow==false){
-            //     return false;
-            // }
-            curr=curr.children[index];
+            curr=curr.child[index];
         }
         return curr.eow;
     }
     
     public boolean startsWith(String prefix) {
-        TrieNode curr=root;
+        Node curr=root;
         for(int i=0;i<prefix.length();i++){
             int index=prefix.charAt(i)-'a';
-
-            if(curr.children[index]==null){
-                return false;
-            }
-           
-            curr=curr.children[index];
+            if(curr.child[index]==null) return false;
+            curr=curr.child[index];
         }
         return true;
-    
     }
 }
 
