@@ -1,88 +1,85 @@
-import java.util.*;
-
 class Node {
-    Node[] child;
-    boolean eow;
+    Node[] child; // Array to store references to child nodes (26 for each alphabet letter)
+    boolean eow;  // Boolean to mark the end of a word
+
     Node() {
-        child = new Node[26];
-        eow = false;
+        child = new Node[26]; // Initialize the child array with 26 null nodes
+        eow = false;          // Default value for end of word
     }
 }
 
 class Solution {
-    private Node root;  // Trie root node
-    private Set<String> result;  // To store unique words found in the board
-    
+    private List<String> res = new ArrayList<>(); // To store the result words
+    private Node root = new Node();              // Root of the Trie
+
+    // Function to insert a word into the Trie
+    public void insert(String word) {
+        Node curr = root;
+        for (int i = 0; i < word.length(); i++) {
+            int index = word.charAt(i) - 'a'; // Convert character to index (0-25)
+            if (curr.child[index] == null) { // If no node exists for this character
+                curr.child[index] = new Node();
+            }
+            curr = curr.child[index]; // Move to the child node
+        }
+        curr.eow = true; // Mark the end of the word
+    }
+
+    // Depth First Search to find words in the board
+    public void dfs(int r, int c, char[][] board, Node curr, StringBuilder path, int row, int col) {
+        // Check for out of bounds or already visited cell
+        if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] == '#') {
+            return;
+        }
+
+        char ch = board[r][c];
+        int index = ch - 'a';
+
+        if (curr.child[index] == null) { // If current character is not in Trie
+            return;
+        }
+
+        curr = curr.child[index];
+        path.append(ch); // Add character to the current path
+
+        if (curr.eow) { // If a word is found
+            res.add(path.toString());
+            curr.eow = false; // Avoid duplicate additions
+        }
+
+        // Mark the current cell as visited
+        board[r][c] = '#';
+
+        // Explore all 4 possible directions
+        dfs(r + 1, c, board, curr, path, row, col); // Down
+        dfs(r - 1, c, board, curr, path, row, col); // Up
+        dfs(r, c + 1, board, curr, path, row, col); // Right
+        dfs(r, c - 1, board, curr, path, row, col); // Left
+
+        // Backtrack
+        board[r][c] = ch;
+        path.deleteCharAt(path.length() - 1);
+    }
+
+    // Main function to find words
     public List<String> findWords(char[][] board, String[] words) {
-        root = new Node();
-        result = new HashSet<>();
-        
-        // Step 1: Insert all words into the Trie
+        // Insert all words into the Trie
         for (String word : words) {
             insert(word);
         }
-        
-        // Step 2: Traverse the board and search for words using backtracking
-        int rows = board.length;
-        int cols = board[0].length;
-        boolean[][] visited = new boolean[rows][cols];
-        
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                backtrack(board, i, j, root, "", visited);
+
+        int row = board.length;
+        int col = board[0].length;
+
+        // Traverse the board
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                int index = board[i][j] - 'a';
+                if (root.child[index] != null) { // If the first character exists in Trie
+                    dfs(i, j, board, root, new StringBuilder(), row, col);
+                }
             }
         }
-        
-        return new ArrayList<>(result);  // Convert the set to a list and return
-    }
-    
-    // Helper function to insert a word into the Trie
-    private void insert(String word) {
-        Node curr = root;
-        for (int i = 0; i < word.length(); i++) {
-            int index = word.charAt(i) - 'a';
-            if (curr.child[index] == null) {
-                curr.child[index] = new Node();
-            }
-            curr = curr.child[index];
-        }
-        curr.eow = true;  // Mark the end of the word
-    }
-    
-    // Backtracking function to search for words
-    private void backtrack(char[][] board, int row, int col, Node node, String path, boolean[][] visited) {
-        // Boundary checks and avoid revisiting
-        if (row < 0 || col < 0 || row >= board.length || col >= board[0].length || visited[row][col]) {
-            return;
-        }
-        
-        char ch = board[row][col];
-        int index = ch - 'a';
-        
-        // If the character is not in the Trie, return early
-        if (node.child[index] == null) {
-            return;
-        }
-        
-        // Append the character to the path
-        path += ch;
-        node = node.child[index];
-        
-        // If we reach the end of a word, add it to the result set
-        if (node.eow) {
-            result.add(path);
-        }
-        
-        // Mark the cell as visited
-        visited[row][col] = true;
-        
-        // Explore all 4 directions: up, down, left, right
-        backtrack(board, row - 1, col, node, path, visited);
-        backtrack(board, row + 1, col, node, path, visited);
-        backtrack(board, row, col - 1, node, path, visited);
-        backtrack(board, row, col + 1, node, path, visited);
-        
-        // Backtrack: unmark the cell
-        visited[row][col] = false;
+        return res;
     }
 }
