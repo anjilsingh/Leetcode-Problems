@@ -13,21 +13,28 @@
  *     }
  * }
  */
+ import java.util.*;
 class Solution {
-    public int getHt(TreeNode root){
-        if(root==null) return 0;
-        int lt=getHt(root.left);
-        if(lt==-1) return -1;
-        int rt=getHt(root.right);
-        if(rt==-1) return -1;
-        
-        int ht=Math.abs(lt-rt);
-        if(ht>1) return-1;
-        else return 1+Math.max(lt,rt);
+    public int gH(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int lH=gH(root.left);
+        int rH=gH(root.right);
+        if(Math.abs(lH-rH)>1){
+            return -1;
+        }
+        return 1+Math.max(lH,rH);
     }
     public boolean isBalanced(TreeNode root) {
-      
-        int ht=getHt(root);
-        return (ht!=-1);
+        if(root==null) return true;
+        int lh=gH(root.left);
+        if(lh==-1) return false;
+        int rh=gH(root.right);
+        if(rh==-1) return false;
+
+        if(Math.abs(lh-rh)>1) return false;
+
+        return (isBalanced(root.left) && isBalanced(root.right));
     }
 }
