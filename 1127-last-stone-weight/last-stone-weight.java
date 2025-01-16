@@ -3,19 +3,16 @@ class Solution {
         PriorityQueue<Integer>pq=new PriorityQueue<>((a,b)->b-a);
         for(int stone:stones){
             pq.add(stone);
+           
         }
-
         while(pq.size()>=2){
-            int lar=pq.poll();
-            int slar=pq.poll();
-            if(lar==slar){
-
-            }
-            else{
-                  pq.add(lar-slar);
-            }
+                int x=pq.poll();
+                int y=pq.poll();
+              
+                if(x!=y){
+                    pq.add(x-y);
+                }
         }
-        if(pq.isEmpty()) return 0;
-        else return pq.peek();
+        return pq.isEmpty()?0:pq.peek();
     }
 }
