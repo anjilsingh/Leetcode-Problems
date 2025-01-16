@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Twitter {
-    public class Pair implements Comparable<Pair> {
+    public class Pair  {
         int id;
         int time;
 
@@ -10,10 +10,10 @@ public class Twitter {
             this.time = time;
         }
 
-        @Override
-        public int compareTo(Pair p) {
-            return this.time - p.time;
-        }
+        // @Override
+        // public int compareTo(Pair p) {
+        //     return this.time - p.time;
+        // }
     }
 
     HashMap<Integer, ArrayList<Pair>> userIdMap;
