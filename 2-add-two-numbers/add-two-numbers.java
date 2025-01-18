@@ -10,38 +10,33 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
         ListNode dummy=new ListNode();
-        ListNode temp=dummy;
+        ListNode curr=dummy;
         int carry=0;
-        while(l1!=null && l2!=null){
-            int sum=l1.val+l2.val+carry;
-            ListNode ln=new ListNode(sum%10);
-            temp.next=ln;
-            temp=temp.next;
+
+        while(l1!=null || l2!=null||carry>0){
+            int sum=0;
+            if(l1!=null){
+                sum+=l1.val;
+                l1=l1.next;
+            }
+            if(l2!=null){
+                sum+=l2.val;
+                l2=l2.next;
+            }
+            if(carry>0){
+                sum+=carry;
+            }
+            ListNode node=new ListNode(sum%10);
+            curr.next=node;
+            curr=curr.next;
             carry=sum/10;
-            l1=l1.next;
-            l2=l2.next;
         }
-        while(l1!=null){
-              int sum=l1.val+carry;
-             ListNode ln=new ListNode(sum%10);
-            temp.next=ln;
-            temp=temp.next;
-            carry=sum/10;
-            l1=l1.next;
-        }
-         while(l2!=null){
-              int sum=l2.val+carry;
-             ListNode ln=new ListNode(sum%10);
-            temp.next=ln;
-            temp=temp.next;
-            carry=sum/10;
-            l2=l2.next;
-        }
-        if(carry>0) {
-           ListNode ln=new ListNode(carry);
-            temp.next=ln;
-            temp=temp.next;
+        if(carry>0){
+               ListNode node=new ListNode(carry);
+               curr.next=node;
+               curr=curr.next;
         }
         return dummy.next;
     }
