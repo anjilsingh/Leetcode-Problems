@@ -10,43 +10,41 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-     //first find the middle of ll
-     //then rev the sec list 
-    //a snd then put one one 
-        
-        
-        ListNode fast=head;
+        //first find the middle 
+        //then second the sec 
+        //and then merge
+
         ListNode slow=head;
-        while(fast!=null && fast.next!=null){
+        ListNode fast=head;
+         
+         while(fast!=null && fast.next!=null){
             fast=fast.next.next;
             slow=slow.next;
-        }
-        
-        ListNode sec=slow.next;
-        slow.next=null;
-        //rev the sec ll
-        ListNode curr=sec;
-        ListNode temp=null;
-        ListNode prev=null;
-        while(curr!=null){
-           ListNode currNext=curr.next;
+         }
+
+         ListNode sec=slow.next;
+         slow.next=null;
+
+         //now rev the sec list 
+         ListNode curr=sec;
+         ListNode prev=null;
+         while(curr!=null){
+            ListNode currNext=curr.next;
             curr.next=prev;
             prev=curr;
             curr=currNext;
-        }
-        
-        ListNode secHead=prev;
-        ListNode firstHead=head;
-        
-        while(secHead!=null){
-            ListNode firstHeadnext=firstHead.next;
-            ListNode secHeadnext=secHead.next;
-            
-            firstHead.next=secHead;
-            secHead.next=firstHeadnext;
-            firstHead=firstHeadnext;
-            secHead=secHeadnext;
-        }
-          
+         }
+         ListNode fHead=head;
+         ListNode sHead=prev;
+         while(sHead!=null){
+            ListNode fNext=fHead.next;
+            ListNode sNext=sHead.next;
+            fHead.next=sHead;
+            sHead.next=fNext;
+
+            fHead=fNext;
+            sHead=sNext;
+         }
+      
     }
 }
