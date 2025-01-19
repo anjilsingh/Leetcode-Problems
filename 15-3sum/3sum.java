@@ -1,12 +1,15 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums);
         List<List<Integer>>ans=new ArrayList<>();
-        for(int i=0;i<nums.length-2;i++){
+        Arrays.sort(nums);
+        int n=nums.length;
+        for(int i=0;i<n;i++){
+
+            //remove dulpicates from i side
             if(i>0 && nums[i]==nums[i-1]) continue;
 
             int l=i+1;
-            int r=nums.length-1;
+            int r=n-1;
             while(l<r){
                 int sum=nums[i]+nums[l]+nums[r];
                 if(sum==0){
@@ -16,7 +19,7 @@ class Solution {
                     while(l<r && nums[l]==nums[l-1]){
                         l++;
                     }
-                    while(l<r && nums[r]==nums[r+1]){
+                    while(r>l && nums[r]==nums[r+1]){
                         r--;
                     }
                 }
@@ -26,8 +29,7 @@ class Solution {
                 else{
                     r--;
                 }
-                
-            } 
+            }
         }
         return ans;
     }
