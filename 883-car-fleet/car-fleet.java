@@ -1,17 +1,20 @@
 class Solution {
     public int carFleet(int target, int[] position, int[] speed) {
-        ArrayList<int[]>arr=new ArrayList<>();
+        ArrayList<int[]>al=new ArrayList<>();
+
         for(int i=0;i<position.length;i++){
-            arr.add(new int[]{position[i],speed[i]});
+            al.add(new int[]{position[i],speed[i]});
         }
-        arr.sort((a,b)->b[0]-a[0]);
-        Stack<Double>st=new Stack<>();
+        al.sort((a,b)->b[0]-a[0]);
+
+        Stack<Double>st=new Stack();
+
         for(int i=0;i<position.length;i++){
-             double time=(double)(target-arr.get(i)[0])/arr.get(i)[1];
-             if(!st.isEmpty() && st.peek()>=time){
+            double time=(double)(target-al.get(i)[0])/al.get(i)[1];
+            if(!st.isEmpty() && st.peek()>=time){
                 continue;
-             }
-             st.push(time);
+            }
+            st.push(time);
         }
         return st.size();
     }
