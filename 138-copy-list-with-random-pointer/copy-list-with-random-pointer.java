@@ -15,23 +15,23 @@ class Node {
 
 class Solution {
     public Node copyRandomList(Node head) {
-        HashMap<Node,Node>otc=new HashMap<>();
-        otc.put(null,null);
+        //by using two paass
 
-        Node curr=head;
+       HashMap<Node,Node>mp=new HashMap<>();
+     Node curr=head;
+       while(curr!=null){
+  Node currCpy=new Node(curr.val);
+        mp.put(curr,currCpy);
+        curr=curr.next;
+       }
+
+        curr=head;
 
         while(curr!=null){
-        Node currCopy=new Node(curr.val);
-            otc.put(curr, currCopy);
-            curr=curr.next;
+          mp.get(curr).next=mp.get(curr.next);
+          mp.get(curr).random=mp.get(curr.random);
+          curr=curr.next;
         }
-
-      curr=head;
-        while(curr!=null){
-            otc.get(curr).next=otc.get(curr.next);
-            otc.get(curr).random=otc.get(curr.random);
-            curr=curr.next;
-        }
-        return otc.get(head);
+        return mp.get(head);
     }
 }
