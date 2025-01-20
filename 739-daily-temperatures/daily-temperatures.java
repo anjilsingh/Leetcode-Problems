@@ -3,11 +3,12 @@ class Solution {
         int n=temperatures.length;
         int[] output=new int[n];
         Stack<int[]>st=new Stack<>();
-        for(int i=0;i<temperatures.length;i++){
+
+        for(int i=0;i<n;i++){
             while(!st.isEmpty() && st.peek()[1]<temperatures[i]){
-                int[] ele=st.pop();
-                int index=ele[0];
-                output[index]=i-index;
+                int[] curr=st.pop();
+                output[curr[0]]=i-curr[0];
+
             }
             st.push(new int[]{i,temperatures[i]});
         }
