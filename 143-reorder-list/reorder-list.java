@@ -10,41 +10,42 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        //first find the middle 
-        //then second the sec 
-        //and then merge
-
-        ListNode slow=head;
+        
         ListNode fast=head;
-         
-         while(fast!=null && fast.next!=null){
+        ListNode slow=head;
+
+        while(fast!=null && fast.next!=null){
             fast=fast.next.next;
             slow=slow.next;
-         }
+        }
+        ListNode sec=slow.next;
+        slow.next=null;
 
-         ListNode sec=slow.next;
-         slow.next=null;
+        //reverse the sec one
+        ListNode prev=null;
+        ListNode curr=sec;
 
-         //now rev the sec list 
-         ListNode curr=sec;
-         ListNode prev=null;
-         while(curr!=null){
+        while(curr!=null){
             ListNode currNext=curr.next;
             curr.next=prev;
             prev=curr;
             curr=currNext;
-         }
-         ListNode fHead=head;
-         ListNode sHead=prev;
-         while(sHead!=null){
-            ListNode fNext=fHead.next;
-            ListNode sNext=sHead.next;
-            fHead.next=sHead;
-            sHead.next=fNext;
+        }
+        ListNode sHead=prev;
+        ListNode fhead=head;
 
-            fHead=fNext;
-            sHead=sNext;
-         }
-      
+        //second will always be samleer
+
+        while(sHead!=null){
+            ListNode fHeadNext=fhead.next;
+            ListNode sHeadNext=sHead.next;
+
+        fhead.next=sHead;
+        sHead.next=fHeadNext;
+
+        fhead=fHeadNext;
+        sHead=sHeadNext;
+        }
+
     }
 }
