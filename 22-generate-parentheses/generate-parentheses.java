@@ -1,24 +1,24 @@
 class Solution {
-    public static void gP(List<String>res,StringBuilder sb,int openN,int closedN,int n){
+    public void gen(int openN,int closedN,int n,List<String>res,StringBuilder sb){
         if(openN==n && closedN==n){
             res.add(sb.toString());
-            return;
+            return ;
         }
         if(openN<n){
             sb.append('(');
-            gP(res,sb,openN+1,closedN,n);
-           sb.deleteCharAt(sb.length() - 1);
+            gen(openN+1,closedN,n,res,sb);
+         sb.deleteCharAt(sb.length()-1);
         }
         if(closedN<openN){
             sb.append(')');
-            gP(res,sb,openN,closedN+1,n);
-           sb.deleteCharAt(sb.length() - 1);
+            gen(openN,closedN+1,n,res,sb);
+            sb.deleteCharAt(sb.length()-1);
         }
     }
     public List<String> generateParenthesis(int n) {
-        List<String>res=new ArrayList<>();
         StringBuilder sb=new StringBuilder();
-        gP(res,sb,0,0,n);
+        List<String>res=new ArrayList<>();
+        gen(0,0,n,res,sb);
         return res;
     }
 }
