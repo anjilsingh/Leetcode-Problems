@@ -1,13 +1,13 @@
- public class Pair{
+class Pair{
     String val;
     int ts;
-    public Pair(String val, int ts){
+    Pair(String val,int ts){
         this.val=val;
         this.ts=ts;
     }
- }
+}
 class TimeMap {
-   HashMap<String,ArrayList<Pair>>mp;
+    HashMap<String,ArrayList<Pair>>mp;
     public TimeMap() {
         mp=new HashMap<>();
     }
@@ -21,28 +21,26 @@ class TimeMap {
         if(!mp.containsKey(key)){
             return "";
         }
-        String res="";
-        List<Pair>al=mp.get(key);
+        ArrayList<Pair>al=mp.get(key);
         int low=0;
         int high=al.size()-1;
+           String ans="";
         while(low<=high){
             int mid=(low+high)/2;
-            
-            int timeS=al.get(mid).ts;
-            if(timeS==timestamp){
-                res=al.get(mid).val;
-                return res;
+
+            if(al.get(mid).ts==timestamp){
+                ans=al.get(mid).val;
+                return ans;
             }
-            else if(timeS<timestamp){
-                res=al.get(mid).val;
+            if(al.get(mid).ts<timestamp){
+                ans=al.get(mid).val;
                 low=mid+1;
             }
             else{
                 high=mid-1;
             }
         }
-        return res;
-
+        return ans;
     }
 }
 
