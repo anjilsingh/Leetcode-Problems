@@ -1,53 +1,43 @@
-class Pair {
-    int first;
-    int second; 
-    public Pair(int first, int second) {
-        this.first = first; 
-        this.second = second; 
-    }
-}
-
 class Solution {
     public int numEnclaves(int[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-        int vis[][] = new int[n][m];
-        Queue<Pair> q = new LinkedList<>();
-        
-        // Only add boundary cells that contain land (grid[i][j] == 1)
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                if ((i == 0 || i == n - 1 || j == 0 || j == m - 1) && grid[i][j] == 1) {
-                    q.add(new Pair(i, j));
-                    vis[i][j] = 1;
-                } 
-            }
-        }
-        
-        int[] delRow = {0, 0, -1, 1};
-        int[] delCol = {-1, 1, 0, 0};
-        
-        while (!q.isEmpty()) {
-            int r = q.peek().first;
-            int c = q.peek().second;
-            q.remove();
-            
-            for (int i = 0; i < 4; i++) {
-                int row = r + delRow[i];
-                int col = c + delCol[i];  
-                
-                if (row >= 0 && row < n && col >= 0 && col < m && vis[row][col] == 0 && grid[row][col] == 1) {
-                    q.add(new Pair(row, col));
-                    vis[row][col] = 1;
+        boolean vis[][]=new boolean[grid.length][grid[0].length];
+        Queue<int[]>q=new LinkedList<>();
+        int rows=grid.length;
+        int cols=grid[0].length;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if ((i == 0 || i == rows - 1 || j == 0 || j == cols - 1) && grid[i][j] == 1) {
+                    q.add(new int[]{i, j});
+                    vis[i][j] = true;
                 }
             }
         }
-        
-        int count = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (vis[i][j] == 0 && grid[i][j] == 1) {
-                    count++;
+        int[] dx={-1,1,0,0};
+        int[] dy={0,0,-1,1};
+        while(!q.isEmpty()){
+             int node[]=q.poll();
+             int r=node[0];
+             int c=node[1];
+
+             for(int j=0;j<4;j++){
+                int newR=r+dx[j];
+                int newC=c+dy[j];
+
+                if(newR<0 ||newR>=grid.length||newC<0 ||newC>=grid[0].length||grid[newR][newC]==0 ||vis[newR][newC]){
+                    continue;
+                }
+                else{
+                    q.add(new int[]{newR,newC});
+                    vis[newR][newC]=true;
+                }
+             }
+        }
+        int count=0;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]==1 && !vis[i][j]){
+                 count++;
+
                 }
             }
         }
