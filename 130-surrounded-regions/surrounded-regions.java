@@ -1,67 +1,78 @@
 class Solution {
-    private void dfs(int r,int c,int[] delRow,int[] delCol,int[][]vis,char[][]board,int n,int m){
-        
-        vis[r][c]=1;
-
-        for(int i=0;i<4;i++)
-        {
-             int row=r+delRow[i];
-             int col=c+delCol[i];
-            
-     if(row>=0 && row<n && col>=0 && col<m && vis[row][col]==0 && board[row][col]=='O'){
-
-                   dfs(row,col,delRow,delCol,vis,board,n,m);
-              }
-                 
-        
-        
-        
-        }
-    
-    
-    
-    }
     public void solve(char[][] board) {
-        int n=board.length;
-        int m=board[0].length;
-        int delRow[]={0,0,-1,1};
-        int delCol[]={1,-1,0,0};
-        int vis[][]=new int[n][m];
         
-        //check for rows
-        
-        for(int j=0;j<m;j++){
-            if(vis[0][j]==0 && board[0][j]=='O'){
+        //need to find all boundary o and find if there is any connected 0 with that if yes than for that it is not poosible else all will be "X";
 
-               dfs(0,j,delRow,delCol,vis,board,n,m);
-            }
-            
-            if(vis[n-1][j]==0 && board[n-1][j]=='O'){
-                dfs(n-1,j,delRow,delCol,vis,board,n,m);
-            }
-        
-        }
-        
-        //check for cols
-        
-        for(int i=0;i<n;i++){
-          if(vis[i][0]==0 && board[i][0]=='O'){
-              dfs(i,0,delRow,delCol,vis,board,n,m);
-          }
-            
-            if(vis[i][m-1]==0 && board[i][m-1]=='O'){
-              dfs(i,m-1,delRow,delCol,vis,board,n,m);
-          }
-        }
-        
-        //convert remaining 'O' to 'X'
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(vis[i][j]==0 && board[i][j]=='O'){
 
-                     board[i][j]='X';
+        boolean[][] vis=new boolean[board.length][board[0].length];
+
+        Queue<int[]>q=new LinkedList<>();
+
+        // for(int i=0;i<board.length;i++){
+        //     for(int j=0;j<board[0].length;j++){
+        //         if(board[i][j]=='0'){
+        //             q.add(new int[]{i,j});
+        //             vis[i][j]=true;
+        //         }
+        //     }
+        // }
+
+
+        //only add boundary ele
+
+        for(int col=0;col<board[0].length;col++){
+            if(board[0][col]=='O'){
+                q.add(new int[]{0,col});
+                vis[0][col]=true;
+            }
+            if(board[board.length-1][col]=='O'){
+               q.add(new int[]{board.length-1,col});
+               vis[board.length-1][col]=true;
+            }
+        }
+        for(int row=0;row<board.length;row++){
+            if(board[row][0]=='O'){
+                q.add(new int[]{row,0});
+                vis[row][0]=true;
+            }
+
+            if(board[row][board[0].length-1]=='O'){
+                q.add(new int[]{row,board[0].length-1});
+                vis[row][board[0].length-1]=true;
+            }
+        }
+
+        int[] dx={-1,1,0,0};
+        int[] dy={0,0,-1,1};
+        while(!q.isEmpty()){
+        
+                int[] node=q.poll();
+                int r=node[0];
+                int c=node[1];
+
+                for(int j=0;j<4;j++){
+                    int newR=r+dx[j];
+                    int newC=c+dy[j];
+
+    if(newR<0||newR>=board.length||newC<0 ||newC>=board[0].length||board[newR][newC]=='X'||vis[newR][newC]==true) {
+                    continue;
+                 }
+                    else{
+                        q.add(new int[]{newR,newC});
+                        vis[newR][newC]=true;
+                    }
+                 }
+            
+        }
+
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if(board[i][j]=='X') continue;
+                if(board[i][j]=='O' && vis[i][j]==false){
+                    board[i][j]='X';
                 }
             }
         }
+       // return board;
     }
 }
