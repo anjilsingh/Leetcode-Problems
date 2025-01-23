@@ -1,42 +1,45 @@
-class Solution {
-    class Pair{
-         String first;
-         int sec;
-        Pair(String first,int sec){
-           this.first=first;
-            this.sec=sec;
-        }
+class Pair{
+    String w;
+    int s;
+    Pair(String w,int s){
+        this.w=w;
+        this.s=s;
     }
+}
+class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String>set=new HashSet<>();
-        for(String word:wordList){
-           set.add(word);
+        for(String str:wordList){
+            set.add(str);
         }
-        
+
         Queue<Pair>q=new LinkedList<>();
         q.add(new Pair(beginWord,1));
         set.remove(beginWord);
+
         while(!q.isEmpty()){
-            String word=q.peek().first;
-            int steps=q.peek().sec;
-            q.remove();
-            if(word.equals(endWord)) return steps;
-            
-            for(int i=0;i<word.length();i++){
-             for(char ch='a';ch<='z';ch++){
-                 char[] charArr=word.toCharArray();
-                 charArr[i]=ch;
-                 String modString=new String(charArr);
-                 
-                 if(set.contains(modString)){
-                    q.add(new Pair(modString,steps+1));
-                     set.remove(modString);
-                 }
-             }
-            
+            Pair pair=q.poll();
+            String word=pair.w;
+            int steps=pair.s;
+
+            if(word.equals(endWord)){
+                return steps;
             }
-            
+
+            for(int i=0;i<word.length();i++){
+                for(char ch='a';ch<='z';ch++){
+                    char wordarr[]=word.toCharArray();
+                    wordarr[i]=ch;
+                    String newW=new String(wordarr);
+
+                    if(set.contains(newW)){
+                        q.add(new Pair(newW,steps+1));
+                        set.remove(newW);
+                    }
+                }
+            }
         }
+
         return 0;
     }
 }
