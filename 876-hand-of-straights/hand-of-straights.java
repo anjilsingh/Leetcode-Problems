@@ -1,43 +1,26 @@
-import java.util.Map.*;
-
 class Solution {
-    public boolean isNStraightHand(int[] hand, int groupSize) {        
-        Map<Integer, Integer> counts = new HashMap<>();
-        
-        for(int element: hand) {
-            counts.put(element, counts.getOrDefault(element, 0) + 1);
+    public boolean isNStraightHand(int[] hand, int groupSize) {
+        if (hand.length % groupSize != 0) {
+            return false;
         }
-        
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        for(Entry<Integer, Integer> current: counts.entrySet()) {
-            minHeap.offer(new int[] {current.getKey(), current.getValue()});   
+
+        Map<Integer, Integer> cardCount = new TreeMap<>();
+        for (int card : hand) {
+            cardCount.put(card, cardCount.getOrDefault(card, 0) + 1);
         }
-        
-        int answer = 0;
-        while(!minHeap.isEmpty()) {
-            List<int[]> temp = new ArrayList<>();
-            for(int i = 0; i < groupSize; i++) {    
-                if(minHeap.isEmpty()) return false;                
-                temp.add(minHeap.poll());
-            }
-            
-            for(int i = 1; i < groupSize; i++) {
-                int[] first = temp.get(i - 1), second = temp.get(i);
-                if((second[0] - first[0]) != 1) {
-                    return false;
+
+        for (int card : cardCount.keySet()) {
+            int count = cardCount.get(card);
+            if (count > 0) {
+                for (int i = 0; i < groupSize; ++i) {
+                    if (cardCount.getOrDefault(card + i, 0) < count) {
+                        return false;
+                    }
+                    cardCount.put(card + i, cardCount.get(card + i) - count);
                 }
             }
-            
-            for(int i = 0; i < groupSize; i++) {
-                int[] current = temp.get(i);
-                if(--current[1] > 0) {
-                    minHeap.offer(current);
-                }
-            }
-            
-            answer++;
         }
-        
+
         return true;
     }
 }
