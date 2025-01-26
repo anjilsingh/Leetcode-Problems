@@ -1,29 +1,37 @@
+class Pair{
+    int i;
+    int j;
+    Pair(int i,int j){
+        this.i=i;
+        this.j=j;
+    }
+}
 class Solution {
     public void setZeroes(int[][] matrix) {
-        int row = matrix.length;
-        int col = matrix[0].length;
-        int[][] ini = new int[row][col]; // Make a copy of the original matrix
+        //can i use a hashmap to store all zero index
         
-        // Copy the original matrix into the `ini` array
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                ini[i][j] = matrix[i][j];
+        HashMap<Pair,Integer>mp=new HashMap<>();
+
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+              if(matrix[i][j]==0){
+                mp.put(new Pair(i,j),0);
+              }
             }
         }
 
-        // Iterate through the matrix to find zeros in `ini` and mark rows/columns in `matrix`
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (ini[i][j] == 0) {
-                    // Set the entire row to zero
-                    for (int k = 0; k < row; k++) {
-                        matrix[k][j] = 0;   // Set column values to zero
-                    }
-                    // Set the entire column to zero
-                    for (int k = 0; k < col; k++) {
-                        matrix[i][k] = 0;   // Set row values to zero
-                    }
-                }
+         for (Pair key : mp.keySet()) {
+            int row = key.i;
+            int col = key.j;
+
+            // Set entire row to zero
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[row][j] = 0;
+            }
+
+            // Set entire column to zero
+            for (int i = 0; i < matrix.length; i++) {
+                matrix[i][col] = 0;
             }
         }
     }
