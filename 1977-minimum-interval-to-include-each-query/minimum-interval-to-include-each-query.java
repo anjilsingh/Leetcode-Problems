@@ -15,15 +15,8 @@ public class Solution {
         int[] sortedQueries = Arrays.copyOf(queries, queries.length);
         Arrays.sort(sortedQueries);
         
-        // Min-heap to store intervals based on their length and starting point
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> {
-            int lengthA = a[1] - a[0] + 1;
-            int lengthB = b[1] - b[0] + 1;
-            if (lengthA != lengthB) {
-                return Integer.compare(lengthA, lengthB); // Sort by length
-            }
-            return Integer.compare(a[0], b[0]); // Tie-break by starting point
-        });
+        // Min-heap to store intervals based on their length
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[1] - a[0], b[1] - b[0]));
         
         int i = 0; // Pointer for intervals
         for (int q : sortedQueries) {
