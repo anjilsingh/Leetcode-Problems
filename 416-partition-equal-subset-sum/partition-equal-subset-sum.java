@@ -1,16 +1,26 @@
 class Solution {
-    public boolean solve(int[] nums, int n, int target,Boolean[][] dp){
-        if(target==0) return true;
-        if(n==0) return false;
-        if(dp[n][target]!=null){
-            return dp[n][target];
+    public boolean solve(int[] arr, int n, int target,Boolean[][] dp){
+ 
+            for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;  // A subset sum of 0 is always possible
         }
-        if(nums[n-1]<=target){
-            return dp[n][target]= solve(nums,n-1,target-nums[n-1],dp)||solve(nums,n-1,target,dp);
+        for (int j = 1; j <= target; j++) {
+            dp[0][j] = false; // If no elements, no subset (except 0) is possible
         }
-        else{
-            return dp[n][target]= solve(nums,n-1,target,dp);
+   
+
+
+       for(int i=1;i<=n;i++){
+        for(int j=1;j<=target;j++){
+            if(arr[i-1]<=j){
+                dp[i][j]=dp[i-1][j]||dp[i-1][j-arr[i-1]];
+            }
+            else{
+                dp[i][j]=dp[i-1][j];
+            }
         }
+       }
+       return dp[n][target];
     }
     public boolean canPartition(int[] nums) {
         int n=nums.length;
