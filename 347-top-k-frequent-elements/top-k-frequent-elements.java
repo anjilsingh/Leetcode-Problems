@@ -1,6 +1,5 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-       
         HashMap<Integer,Integer>mp=new HashMap<>();
         for(int num:nums){
             mp.put(num,mp.getOrDefault(num,0)+1);
@@ -10,17 +9,17 @@ class Solution {
 
         for(Map.Entry<Integer,Integer>entry:mp.entrySet()){
             pq.add(new int[]{entry.getValue(),entry.getKey()});
-            if(pq.size()>k){
-                pq.poll();
-            }
         }
 
+        while(pq.size()>k){
+            pq.poll();
+        }
         int[] output=new int[k];
         int i=0;
         while(!pq.isEmpty()){
-            output[i++]=pq.poll()[1];
+            output[i]=pq.poll()[1];
+            i++;
         }
-
         return output;
     }
 }
