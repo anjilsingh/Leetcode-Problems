@@ -1,23 +1,40 @@
+import java.util.*;
+
 class Solution {
-    public int maxFreeTime(int event, int k, int[] start, int[] end) {
-        int n = end.length;
-        int dif[] = new int[n+1];
+    public int maxFreeTime(int eventTime, int k, int[] startTime, int[] endTime) {
+        // 1. Accumulate all the available gaps
+        List<Integer> gaps = new ArrayList<>();
 
-        dif[0] = start[0];
-        for(int i=1;i<n;i++) dif[i] = start[i]-end[i-1];
-        dif[n] = event-end[n-1];
+        // 2. First gap would be first event start time - 0
+        gaps.add(startTime[0]);
 
-        int lf=0; int rf=0;
-        int sum=0; int ans=0;
-        while(rf<=n){
-            sum += dif[rf];
-            if(rf-lf+1==(k+1)){
-                ans = Math.max(ans,sum);
-                sum -= dif[lf];
-                lf++;
-            }
-            rf++;
+        // 3. Add in-between gaps for all events
+        int size = startTime.length;
+        for (int i = 1; i < size; i++) {
+            gaps.add(startTime[i] - endTime[i - 1]);
         }
-        return ans;
+
+        // 4. Last gap would be eventTime - last event end time
+        gaps.add(eventTime - endTime[size - 1]);
+
+        // 5. Go through each gap with a sliding window of size k+1
+        int start = 0;
+        int gapSum = 0;
+        int maxGapSum = 0;
+
+        for (int end = 0; end < gaps.size(); end++) {
+            gapSum += gaps.get(end);
+
+            if (end - start + 1 > k + 1) { // Window size exceeds k+1
+                gapSum -= gaps.get(start); // Remove leftmost element
+                start++; // Move left pointer
+            }
+
+            maxGapSum = Math.max(maxGapSum, gapSum);
+        }
+
+        return maxGapSum;
     }
+
+    
 }
