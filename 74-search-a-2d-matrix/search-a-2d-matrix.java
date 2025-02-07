@@ -1,34 +1,30 @@
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        //first search the row
-
         int row=matrix.length-1;
         int col=matrix[0].length-1;
- 
-        int low=0;
-        int high=row;
-
-        while(low<=high){
-            int mid=(high+low)/2;
+        int start=0;
+        int end=row;
+        while(start<=end){
+            int mid=(start+end)/2;
 
             if(target<matrix[mid][0]){
-                high=mid-1;
+                end=mid-1;
             }
             else if(target>matrix[mid][col]){
-                low=mid+1;
+                start=mid+1;
             }
             else{
                 break;
             }
-
         }
-        if(low>high){
+        if(start>end){
             return false;
         }
-        int r=(low+high)/2;
+        int r=(start+end)/2;
         int left=0;
         int right=col;
-        while(left<=right){
+        while(left<=right)
+        {
             int mid=(left+right)/2;
             if(matrix[r][mid]==target){
                 return true;
