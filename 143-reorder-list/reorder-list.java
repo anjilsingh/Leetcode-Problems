@@ -10,42 +10,41 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        
+        //first find the middle 
+
         ListNode fast=head;
         ListNode slow=head;
-
         while(fast!=null && fast.next!=null){
             fast=fast.next.next;
             slow=slow.next;
         }
-        ListNode sec=slow.next;
+
+        ListNode secHead=slow.next;
         slow.next=null;
 
-        //reverse the sec one
+        //now reverse the sec ll
+
+        ListNode curr=secHead;
         ListNode prev=null;
-        ListNode curr=sec;
-
         while(curr!=null){
-            ListNode currNext=curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=currNext;
-        }
-        ListNode sHead=prev;
-        ListNode fhead=head;
-
-        //second will always be samleer
-
-        while(sHead!=null){
-            ListNode fHeadNext=fhead.next;
-            ListNode sHeadNext=sHead.next;
-
-        fhead.next=sHead;
-        sHead.next=fHeadNext;
-
-        fhead=fHeadNext;
-        sHead=sHeadNext;
+         ListNode currNext=curr.next;
+         curr.next=prev;
+         prev=curr;
+         curr=currNext;
         }
 
+        ListNode fH=head;
+        ListNode sH=prev;
+
+        while(sH!=null){
+            ListNode fHNext=fH.next;
+            ListNode sHNext=sH.next;
+
+            fH.next=sH;
+            sH.next=fHNext;
+            fH=fHNext;
+            sH=sHNext;
+        }
+      //  return head;
     }
 }
