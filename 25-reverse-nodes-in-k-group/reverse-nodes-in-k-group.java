@@ -9,47 +9,42 @@
  * }
  */
 class Solution {
-    public ListNode getKth(ListNode gP,int k){
-        while(gP!=null && k>0){
-            gP=gP.next;
+    public ListNode getKth(ListNode head,int k){
+        while(head!=null && k>0){
+            head=head.next;
             k--;
         }
-        return gP;
+        return head;
     }
     public ListNode reverseKGroup(ListNode head, int k) {
-        
-          if(head==null ||k<=1){
-              return head;
-          }
+        if(head==null ||k<=1){
+            return head;
+        }
         ListNode dummy=new ListNode();
         dummy.next=head;
-        ListNode gP=dummy;
+        ListNode gp=dummy;
 
+        while(true){
+            ListNode kth=getKth(gp,k);
+            if(kth==null) break;
 
-        
-
-          while(true){
-            ListNode kth=getKth( gP,k);
-             if (kth == null) { // Not enough nodes left
-                break;
-            }
             ListNode gN=kth.next;
-
+            ListNode curr=gp.next;
             ListNode prev=null;
-            ListNode curr=gP.next;
+
             while(curr!=gN){
-                ListNode currNext=curr.next;
-                curr.next=prev;
-                prev=curr;
-                curr=currNext;
+               ListNode currnext=curr.next;
+               curr.next=prev;
+               prev=curr;
+               curr=currnext;
             }
 
-            ListNode temp=gP.next;
-            gP.next=kth;
+            ListNode temp=gp.next;
+            gp.next=kth;
             temp.next=gN;
-            gP=temp;
-          
+            gp=temp;
         }
+
         return dummy.next;
     }
 }
