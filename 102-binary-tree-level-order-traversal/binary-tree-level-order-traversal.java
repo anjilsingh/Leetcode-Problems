@@ -21,9 +21,9 @@ class Solution {
         q.add(root);
         while(!q.isEmpty()){
             int size=q.size();
-             List<Integer>curr=new ArrayList<>();
+            List<Integer>curr=new ArrayList<>();
+
             for(int i=0;i<size;i++){
-               
                 TreeNode node=q.poll();
                 curr.add(node.val);
                 if(node.left!=null){
@@ -33,8 +33,9 @@ class Solution {
                     q.add(node.right);
                 }
             }
-            ans.add(curr);
+             ans.add(curr);
         }
         return ans;
+       
     }
 }
