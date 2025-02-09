@@ -15,24 +15,28 @@
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if(preorder.length==0||inorder.length==0) return null;
-
-        int ele=preorder[0];
+        if(preorder.length==0 ||inorder.length==0){
+            return null;
+        }
+        int val=preorder[0];
         int mid=-1;
         for(int i=0;i<inorder.length;i++){
-            if(inorder[i]==ele){
-              mid=i;
-              break;
-
+            if(inorder[i]==val){
+                mid=i;
+                break;
             }
         }
-        TreeNode root=new TreeNode(ele);
+
+        TreeNode root=new TreeNode(val);
+
         int[] leftPre=Arrays.copyOfRange(preorder,1,mid+1);
         int[] leftIn=Arrays.copyOfRange(inorder,0,mid);
+
         root.left=buildTree(leftPre,leftIn);
 
         int[] rPre=Arrays.copyOfRange(preorder,mid+1,preorder.length);
         int[] rIn=Arrays.copyOfRange(inorder,mid+1,inorder.length);
+
         root.right=buildTree(rPre,rIn);
 
         return root;
