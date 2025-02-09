@@ -12,38 +12,37 @@ public class Codec {
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         List<String>res=new ArrayList<>();
-        dfsSerialize(res,root);
-        return String.join(",",res);
-    }
+        dfsSer(root,res);
+      return  String.join(",",res);
 
-    public void dfsSerialize(List<String>res,TreeNode root){
+    }
+    public void dfsSer(TreeNode root,List<String>res){
         if(root==null){
             res.add("N");
             return;
         }
         res.add(String.valueOf(root.val));
-        dfsSerialize(res,root.left);
-        dfsSerialize(res,root.right);
+        dfsSer(root.left,res);
+        dfsSer(root.right,res);
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         String[] val=data.split(",");
         int[] i={0};
-         return des(val,i);
-
+       return dfsdes(val,i);
     }
 
-    public TreeNode des(String val[], int[] i){
+    public TreeNode dfsdes(String[] val,int[] i){
         if(val[i[0]].equals("N")){
             i[0]++;
             return null;
         }
-        TreeNode root=new TreeNode(Integer.parseInt(val[i[0]]));
+        TreeNode node=new TreeNode(Integer.parseInt(val[i[0]]));
         i[0]++;
-        root.left=des(val,i);
-        root.right=des(val,i);
-        return root;
+        node.left=dfsdes(val,i);
+        node.right=dfsdes(val,i);
+        return node;
     }
 }
 
