@@ -1,8 +1,10 @@
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
-      PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> 
-    Integer.compare(b[0] * b[0] + b[1] * b[1], a[0] * a[0] + a[1] * a[1])
-);
+        //closet so we have to create max heap
+        
+        PriorityQueue<int[]>pq=new PriorityQueue<>((a,b)->{
+            return Integer.compare(b[0]*b[0]+b[1]*b[1],a[0]*a[0]+a[1]*a[1]);
+        });
 
 
         for(int[] point:points){
