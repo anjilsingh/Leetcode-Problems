@@ -1,5 +1,5 @@
 class Solution {
-    class Task implements Comparable<Task> {
+     class Task implements Comparable<Task> {
         int freq; // Frequency of the task
         int exeT; // Next eligible execution time
         
@@ -12,42 +12,37 @@ class Solution {
             return that.freq - this.freq; // Max-Heap based on frequency
         }
     }
-    
     public int leastInterval(char[] tasks, int n) {
-        // Count frequencies of tasks
-        HashMap<Character, Integer> freqMap = new HashMap<>();
-        for (char ch : tasks) {
-            freqMap.put(ch, freqMap.getOrDefault(ch, 0) + 1);
+        HashMap<Character,Integer>mp=new HashMap<>();
+        PriorityQueue<Task>pq=new PriorityQueue<>();
+        for(char ch:tasks){
+            mp.put(ch,mp.getOrDefault(ch,0)+1);
         }
 
-        // Priority queue for the max-heap (by frequency)
-        PriorityQueue<Task> pq = new PriorityQueue<>();
-        for (int freq : freqMap.values()) {
-            pq.add(new Task(freq, 0)); // Initialize tasks with 0 execution time
+        for(int frq:mp.values()){
+           pq.add(new Task(frq,0));
         }
 
-        int time = 0; // Keep track of the current time
-        Queue<Task> cooldown = new LinkedList<>(); // Queue for cooling tasks
+        Queue<Task>q=new LinkedList<>();
+        int time=0;
 
-        while (!pq.isEmpty() || !cooldown.isEmpty()) {
-            time++; // Increment time at each step
-            
-            // Process tasks from the max-heap
-            if (!pq.isEmpty()) {
-                Task current = pq.poll();
-                current.freq--; // Decrease frequency
-                if (current.freq > 0) {
-                    current.exeT = time + n; // Update next eligible time
-                    cooldown.add(current); // Add to cooldown queue
-                }
+        while(!pq.isEmpty() || !q.isEmpty()){
+            time++;
+            if(!pq.isEmpty()){
+            Task task=pq.poll();
+            int freq=task.freq;
+            freq--;
+            //decrease freq
+            if(freq>0){
+                int t=time+n;
+                q.add(new Task(freq,t));
             }
-            
-            // Check if tasks in the cooldown queue are ready
-            if (!cooldown.isEmpty() && cooldown.peek().exeT <= time) {
-                pq.add(cooldown.poll()); // Re-insert back into the priority queue
+            }
+
+            if(!q.isEmpty() && q.peek().exeT<=time){
+               pq.add(q.poll());
             }
         }
-
-        return time; // Total time taken
+        return time;
     }
 }
