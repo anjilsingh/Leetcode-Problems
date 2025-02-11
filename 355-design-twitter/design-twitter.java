@@ -1,77 +1,66 @@
-import java.util.*;
-
-public class Twitter {
-    public class Pair  {
-        int id;
-        int time;
-
-        Pair(int id, int time) {
-            this.id = id;
-            this.time = time;
-        }
-
-        // @Override
-        // public int compareTo(Pair p) {
-        //     return this.time - p.time;
-        // }
+public class Pair{
+    int id;
+    int ts;
+  public  Pair(int id,int ts){
+        this.id=id;
+        this.ts=ts;
     }
 
-    HashMap<Integer, ArrayList<Pair>> userIdMap;
-    HashMap<Integer, HashSet<Integer>> followMap;
-    PriorityQueue<Pair> p;
+}
+class Twitter {
+    HashMap<Integer,ArrayList<Pair>>userMap;
+    HashMap<Integer,Set<Integer>>followMap;
     int time;
-
     public Twitter() {
-        userIdMap = new HashMap<>();
-        followMap = new HashMap<>();
-        time = 0;
+        userMap=new HashMap<>();
+        followMap=new HashMap<>();
+        time++;
     }
-
+    
     public void postTweet(int userId, int tweetId) {
-        userIdMap.putIfAbsent(userId, new ArrayList<>());
-        userIdMap.get(userId).add(new Pair(tweetId, time++));
+        userMap.putIfAbsent(userId,new ArrayList<>());
+        userMap.get(userId).add(new Pair(tweetId,time++));
     }
-
+    
     public List<Integer> getNewsFeed(int userId) {
-        p = new PriorityQueue<>((a, b) -> b.time - a.time); // Max-heap
-        List<Integer> ans = new ArrayList<>();
+        PriorityQueue<Pair>pq=new PriorityQueue<>((a,b)->b.ts-a.ts);
+        List<Integer>ans=new ArrayList<>();
 
-        // Get user's own tweets
-        ArrayList<Pair> helper = userIdMap.get(userId);
-        if (helper != null) {
-            p.addAll(helper);
+        ArrayList<Pair> helper1=userMap.get(userId);
+        if(helper1!=null){
+            pq.addAll(helper1);
         }
 
-        // Get tweets from followed users
-        HashSet<Integer> helper2 = followMap.get(userId);
-        if (helper2 != null) {
-            for (int key : helper2) {
-                ArrayList<Pair> helper3 = userIdMap.get(key);
-                if (helper3 != null) {
-                    p.addAll(helper3);
-                }
-            }
+    Set<Integer>helper2=followMap.get(userId);
+    if(helper2!=null){
+        for(int key:helper2){
+            
+        ArrayList<Pair> helper3=userMap.get(key);
+        if(helper3!=null){
+            pq.addAll(helper3);
         }
-
-        while (!p.isEmpty() && ans.size() < 10) {
-            ans.add(p.poll().id);
         }
-
-        return ans;
     }
 
+    while(!pq.isEmpty() && ans.size()<10)
+    {
+        ans.add(pq.poll().id);
+    }
+
+    return ans;
+    }
+    
     public void follow(int followerId, int followeeId) {
-        followMap.putIfAbsent(followerId, new HashSet<>());
+        followMap.putIfAbsent(followerId,new HashSet<>());
         followMap.get(followerId).add(followeeId);
     }
-
+    
     public void unfollow(int followerId, int followeeId) {
-        if (followMap.containsKey(followerId)) {
+        if(followMap.containsKey(followerId)){
             followMap.get(followerId).remove(followeeId);
         }
     }
 }
-
 
 /**
  * Your Twitter object will be instantiated and called as such:
