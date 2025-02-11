@@ -1,5 +1,5 @@
 class Solution {
-    public boolean isPalin(String s){
+        public boolean isPalin(String s){
         int left=0;
         int right=s.length()-1;
         while(left<right){
@@ -9,21 +9,24 @@ class Solution {
         }
         return true;
     }
-    public void solve(int start,List<List<String>>res,List<String>curr,String s){
-        if(start==s.length()){
+    public void solve(String s,int start,int n,List<List<String>>res,List<String>curr){
+        if(start==n){
             res.add(new ArrayList<>(curr));
+            return;
         }
-        for(int i=start;i<s.length();i++){
+
+        for(int i=start;i<n;i++){
             if(isPalin(s.substring(start,i+1))){
                 curr.add(s.substring(start,i+1));
-                solve(i+1,res,curr,s);
-                curr.remove(curr.size()-1);
+                solve(s,i+1,n,res,curr);
+                 curr.remove(curr.size()-1);
             }
         }
     }
     public List<List<String>> partition(String s) {
         List<List<String>>res=new ArrayList<>();
-        solve(0,res,new ArrayList<>(),s);
+        int n=s.length();
+        solve(s,0,n,res,new ArrayList<>());
         return res;
     }
 }
