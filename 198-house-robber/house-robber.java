@@ -1,20 +1,17 @@
 class Solution {
-    public int solve(int n,int[] nums,int[] dp){
-        if(n==0){
-            return nums[0];
+    public int solve(int i,int n,int[] nums,int[] dp)
+    {
+        if(i>=n){
+            return 0;
         }
-        if(n==1){
-            return Math.max(nums[0],nums[1]);
-        }
-        if(dp[n]!=-1){
-            return dp[n];
-        }
-        return dp[n]=Math.max(nums[n]+solve(n-2,nums,dp),solve(n-1,nums,dp));
+        if(dp[i]!=-1) return dp[i];
+        return dp[i]=Math.max(solve(i+1,n,nums,dp),nums[i]+solve(i+2,n,nums,dp));
     }
     public int rob(int[] nums) {
-        int n=nums.length-1;
+        int n=nums.length;
         int[] dp=new int[n+1];
         Arrays.fill(dp,-1);
-         return solve(n,nums,dp);
+        return solve(0,n,nums,dp);
+
     }
 }
