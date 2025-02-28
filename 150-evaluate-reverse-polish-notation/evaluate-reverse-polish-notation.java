@@ -1,38 +1,35 @@
 class Solution {
     public int evalRPN(String[] tokens) {
-        //will create a stack of integer
-        Stack<Integer>st=new Stack<>();
+        Stack<Integer>st=new Stack();
 
         for(int i=0;i<tokens.length;i++){
-            String str=tokens[i];
+            String ch=tokens[i];
 
-            if(str.equals("+")){
+
+            if(ch.equals("+")){
                 int a=st.pop();
                 int b=st.pop();
-                st.push(b+a);
+                st.push(a+b);
             }
-
-                  else if(str.equals("-")){
+            else if(ch.equals("-")){
                 int a=st.pop();
                 int b=st.pop();
                 st.push(b-a);
             }
-                else if(str.equals("*")){
+            else if(ch.equals("*")){
                 int a=st.pop();
                 int b=st.pop();
-                st.push(b*a);
+                st.push(a*b);
             }
-
-                 else if(str.equals("/")){
+            else if(ch.equals("/")){
                 int a=st.pop();
                 int b=st.pop();
                 st.push(b/a);
             }
             else{
-                st.push(Integer.parseInt(str));
+                st.push(Integer.parseInt(tokens[i]));
             }
-
         }
-      return st.peek();
+        return st.peek();
     }
 }
