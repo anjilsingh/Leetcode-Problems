@@ -1,5 +1,6 @@
 class Solution {
     public int carFleet(int target, int[] position, int[] speed) {
+        
         ArrayList<int[]>al=new ArrayList<>();
         for(int i=0;i<position.length;i++){
             al.add(new int[]{position[i],speed[i]});
@@ -9,14 +10,8 @@ class Solution {
         Stack<Double>st=new Stack<>();
 
         for(int i=0;i<al.size();i++){
-            int[] curr=al.get(i);
-
-            double time=(double)(target-curr[0])/curr[1];
-
-            if(!st.isEmpty() && st.peek()>=time){
-                continue;
-            }
-
+            double time=(target-al.get(i)[0])/(double)al.get(i)[1];
+            if(!st.isEmpty() && time<=st.peek() ) continue;
             st.push(time);
         }
         return st.size();
