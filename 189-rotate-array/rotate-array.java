@@ -1,41 +1,23 @@
 class Solution {
-    public void rotate(int[] nums, int k) {
-        int n=nums.length;
-        k=k%n;
-        
-        //reverse the last k elements
-         int l=n-k;
-         int r=n-1;
-         while(l<r){
+    public void rev(int[] nums,int l,int r){
+        while(l<r){
             int temp=nums[l];
             nums[l]=nums[r];
             nums[r]=temp;
-             l++;
-             r--;
-         }
-        
-         int  x=0;
-         int  y=n-k-1;
-         while(x<y){
-             int temp=nums[x];
-             nums[x]=nums[y];
-             nums[y]=temp;
-             x++;
-             y--;
-         }
-         int a=0;
-         int b=n-1;
-        while(a<b){
-           int temp=nums[a];
-            nums[a]=nums[b];
-            nums[b]=temp;
-            a++;
-            b--;
-                
+            l++;
+            r--;
         }
+    }
+    public void rotate(int[] nums, int k) {
+        //right rotate means 
+        //first rev the n-k
+        //then left k
+        //then rev the whole
         
-             
-        
-        
+        int n=nums.length;
+        k=k%n;
+        rev(nums,0,n-k-1);
+        rev(nums,n-k,n-1);
+        rev(nums,0,n-1);
     }
 }
