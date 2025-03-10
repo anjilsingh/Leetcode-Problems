@@ -1,24 +1,25 @@
 class Solution {
-    public boolean isPali(String s){
-        int i=0;
-        int j=s.length()-1;
-        while(i<j){
-            if(s.charAt(i)!=s.charAt(j)){
+    public boolean isPali(String str){
+        int l=0;
+        int r=str.length()-1;
+        while(l<=r){
+            if(str.charAt(l)!=str.charAt(r)){
                 return false;
             }
-            i++;
-            j--;
+            l++;
+            r--;
         }
         return true;
     }
-    public void solve(String s,List<List<String>>res,int start,int n,List<String>curr){
+    public void solve(int start,int n,String s,List<List<String>>res,List<String>curr){
         if(start==n){
             res.add(new ArrayList<>(curr));
+            return;
         }
         for(int i=start;i<n;i++){
             if(isPali(s.substring(start,i+1))){
                 curr.add(s.substring(start,i+1));
-                solve(s,res,i+1,n,curr);
+                solve(i+1,n,s,res,curr);
                 curr.remove(curr.size()-1);
             }
         }
@@ -26,7 +27,7 @@ class Solution {
     public List<List<String>> partition(String s) {
         List<List<String>>res=new ArrayList<>();
         int n=s.length();
-        solve(s,res,0,n,new ArrayList<>());
+        solve(0,n,s,res,new ArrayList<>());
         return res;
     }
 }
