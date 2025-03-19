@@ -3,13 +3,11 @@ class Solution {
         Stack<Integer>st=new Stack<>();
         for(int i=0;i<tokens.length;i++){
             String str=tokens[i];
-
             if(str.equals("+")){
                 int a=st.pop();
                 int b=st.pop();
                 st.push(a+b);
             }
-
             else if(str.equals("-")){
                 int a=st.pop();
                 int b=st.pop();
@@ -18,7 +16,7 @@ class Solution {
             else if(str.equals("*")){
                 int a=st.pop();
                 int b=st.pop();
-                st.push(b*a);
+                st.push(a*b);
             }
             else if(str.equals("/")){
                 int a=st.pop();
@@ -28,6 +26,8 @@ class Solution {
             else{
                 st.push(Integer.parseInt(str));
             }
+            
+
         }
         return st.peek();
     }
