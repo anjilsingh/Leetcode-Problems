@@ -1,42 +1,45 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if(s.length()<t.length()) return "";
-        int minLength=Integer.MAX_VALUE;
-        int[] index={-1,-1};
-        HashMap<Character,Integer>tmp=new HashMap<>();
-        for(int i=0;i<t.length();i++){
-            tmp.put(t.charAt(i),tmp.getOrDefault(t.charAt(i),0)+1);
-        }
-        int need=tmp.size();
-        int have=0;
-        
-        HashMap<Character,Integer>smp=new HashMap<>();
-        int l=0;
-        for(int r=0;r<s.length();r++){
-           smp.put(s.charAt(r),smp.getOrDefault(s.charAt(r),0)+1);
-           if(tmp.containsKey(s.charAt(r)) && smp.get(s.charAt(r)).equals(tmp.get(s.charAt(r)))){
-            have++;
-           }
+        if (s.length() < t.length()) return "";
+        int l = 0;
+        int len = Integer.MAX_VALUE;
+        int[] arr = {-1, -1};
 
+        HashMap<Character, Integer> mps = new HashMap<>();
+        HashMap<Character, Integer> mpt = new HashMap<>();
 
-           while(have==need){
-              if(r-l+1<minLength){
-                minLength=r-l+1;
-                index[0]=l;
-                index[1]=r;
-              }
-
-             smp.put(s.charAt(l), smp.getOrDefault(s.charAt(l), 0) - 1);
-
-     if(tmp.containsKey(s.charAt(l)) && smp.get(s.charAt(l))<tmp.get(s.charAt(l))){
-            have--;
-           }
-           l++;
-
-           }
+        // Correct mpt initialization
+        for (int i = 0; i < t.length(); i++) {
+            mpt.put(t.charAt(i), mpt.getOrDefault(t.charAt(i), 0) + 1);
         }
 
-        return minLength==Integer.MAX_VALUE?"":s.substring(index[0],index[1]+1);
-        
+        int need = mpt.size();
+        int have = 0;
+
+        for (int r = 0; r < s.length(); r++) {
+            mps.put(s.charAt(r), mps.getOrDefault(s.charAt(r), 0) + 1);
+
+            if (mpt.containsKey(s.charAt(r)) && mps.get(s.charAt(r)).intValue() == mpt.get(s.charAt(r)).intValue()) {
+                have++;
+            }
+
+            while (have == need) {
+                if (r - l + 1 < len) {
+                    len = r - l + 1;
+                    arr[0] = l;
+                    arr[1] = r;
+                }
+
+                mps.put(s.charAt(l), mps.get(s.charAt(l)) - 1);
+
+                // Fix comparison here
+                if (mpt.containsKey(s.charAt(l)) && mps.get(s.charAt(l)) < mpt.get(s.charAt(l))) {
+                    have--;
+                }
+                l++;
+            }
+        }
+
+        return len == Integer.MAX_VALUE ? "" : s.substring(arr[0], arr[1] + 1);
     }
 }
