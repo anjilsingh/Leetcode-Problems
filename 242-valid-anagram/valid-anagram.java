@@ -1,5 +1,8 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
+        //anagram means same character 
+        //so will do like that only 
+        
         if(s.length()!=t.length()) return false;
         int[] arr=new int[26];
         for(int i=0;i<s.length();i++){
@@ -8,7 +11,7 @@ class Solution {
         }
         for(int i=0;i<26;i++){
             if(arr[i]!=0){
-                  return false;
+                return false;
             }
         }
         return true;
