@@ -1,15 +1,13 @@
 class Solution {
     public boolean containsDuplicate(int[] nums) {
-
-        //second approach sorting 
-     //  time complexiety - o(log n)
-        int n=nums.length;
-        Arrays.sort(nums);
-        for(int i=1;i<n;i++){
-            if(nums[i]==nums[i-1]){
-                return true;
-            }
+     
+       HashSet<Integer>set=new HashSet<>();
+       for(int num:nums){
+        if(set.contains(num)){
+            return true;
         }
-        return false;
+        set.add(num);
+       }
+       return false;
     }
 }
