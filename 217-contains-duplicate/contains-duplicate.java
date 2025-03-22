@@ -1,5 +1,8 @@
 class Solution {
     public boolean containsDuplicate(int[] nums) {
+
+        //second approach sorting 
+     //  time complexiety - o(n)
         int n=nums.length;
         Arrays.sort(nums);
         for(int i=1;i<n;i++){
